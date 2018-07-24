@@ -4,3 +4,5 @@
 */gradlew*
 */gradle/*
 */.idea
+
+kafka-sse

@@ -40,4 +40,5 @@ public class HelloControllerIT {
         String.class);
     assertThat(response.getBody(), equalTo("integration_hello"));
   }
+
 }

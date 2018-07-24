@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}
+
+app:
+  topic:
+    foo: foo.t
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    com.memorynotfound: DEBUG
