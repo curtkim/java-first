@@ -11,9 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
+import java.util.function.Consumer;
+
+import static java.time.Duration.ofSeconds;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -34,10 +41,21 @@ public class DemoApplication {
 
   @Service
   class EventService {
-    private Flux<Long> interval = Flux.interval(Duration.ofSeconds(1)).log();
+    Consumer<? super FluxSink<Long>> emitter = (fluxSink) ->{
+      while(true) {
+        fluxSink.next(System.currentTimeMillis());
+      }
+    };
+
+    ConnectableFlux<Long> publish = Flux.create(emitter, FluxSink.OverflowStrategy.DROP)
+      .sample(ofSeconds(1))
+      .subscribeOn(Schedulers.elastic())
+      .publish();
+
+    Flux<Long> flux = publish.autoConnect(1);
 
     Flux<String> get(int i) {
-      return interval.filter(v-> v % i == 0).map(v -> v.toString());
+      return flux.filter(v-> v % i == 0).map(v -> v.toString()).log();
     }
   }
 
@@ -52,7 +70,9 @@ public class DemoApplication {
   @Bean
   CommandLineRunner commandLineRunner() {
     return args -> {
-      eventService.get(2).subscribe(System.out::println);
+      eventService.get(2).subscribe((v)->{
+        System.out.println( Thread.currentThread().getName() + " : " + v);
+      });
     };
   }
 }
