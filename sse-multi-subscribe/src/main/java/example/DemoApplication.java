@@ -31,9 +31,10 @@ public class DemoApplication {
     }
   }
 
+
   @Service
   class EventService {
-    private Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
+    private Flux<Long> interval = Flux.interval(Duration.ofSeconds(1)).log();
 
     Flux<String> get(int i) {
       return interval.filter(v-> v % i == 0).map(v -> v.toString());
@@ -54,6 +55,4 @@ public class DemoApplication {
       eventService.get(2).subscribe(System.out::println);
     };
   }
-
-
 }
