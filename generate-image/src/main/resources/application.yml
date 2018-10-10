@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: local
+
+property:
+  hello: default_hello
+  hi: default_hi
+  hey: default_hey
+
+---
+spring:
+  profiles: local
+
+property:
+  hello: local_hello
+
+---
+
+spring:
+  profiles: dev
+
+property:
+  hi: dev_hi
+
+---
+
+spring:
+  profiles: integration
+
+property:
+  hello: integration_hello
+
+
+---
+
+spring:
+  profiles: production
+
+property:
+  hey: production_hey
