@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: dev
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    mongodb:
+      port: 27017
+      host: localhost
+      database: test
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+---
+spring:
+  profiles: alpha
+
+
+---
+spring:
+  profiles: prod
