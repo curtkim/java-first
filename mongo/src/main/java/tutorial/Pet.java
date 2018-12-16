@@ -1,6 +1,10 @@
 package tutorial;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 public class Pet {
   @Id
@@ -9,18 +13,24 @@ public class Pet {
   public String name;
   public String species;
   public String breed;
+
+  @JsonProperty("foot_size")
   public double footSize;
+
+  @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+  private Point location;
 
 
   // Constructors
   public Pet() {}
 
-  public Pet(String id, String name, String species, String breed, double footSize) {
+  public Pet(String id, String name, String species, String breed, double footSize, Point location) {
     this.id = id;
     this.name = name;
     this.species = species;
     this.breed = breed;
     this.footSize = footSize;
+    this.location = location;
   }
 
   public String getId() { return id; }
@@ -41,5 +51,13 @@ public class Pet {
 
   public void setFootSize(double footSize) {
     this.footSize = footSize;
+  }
+
+  public Point getLocation() {
+    return location;
+  }
+
+  public void setLocation(Point location) {
+    this.location = location;
   }
 }
