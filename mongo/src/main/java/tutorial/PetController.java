@@ -3,12 +3,15 @@ package tutorial;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Box;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,6 +23,16 @@ public class PetController {
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public List<Pet> getAllPets() {
     return repository.findAll();
+  }
+
+  @RequestMapping(value = "/box", method = RequestMethod.GET)
+  public List<Pet> findByLocation(
+      @RequestParam final double minX,
+      @RequestParam final double minY,
+      @RequestParam final double maxX,
+      @RequestParam final double maxY) {
+    Box box = new Box(new Point(minX, minY), new Point(maxX, maxY));
+    return repository.findByLocationWithin(box);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -35,5 +48,6 @@ public class PetController {
     pet.setId(id);
     repository.save(pet);
   }
+
 
 }

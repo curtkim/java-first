@@ -17,3 +17,5 @@ test
 
     curl -i -H 'Content-Type: application/json' -X PUT -d '{"name" : "Liam", "species" : "cat", "breed" : "siamese", "foot_size":5.1, "location":{"x":1.1, "y":2.2}}' localhost:8080/pet/1
     curl -i localhost:8080/pet/1
+
+    curl -i localhost:8080/pet/box?minX=0&minY=0&maxX=10&maxY=10
