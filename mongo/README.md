@@ -15,6 +15,7 @@
 ## jackson
 - https://www.baeldung.com/jackson-object-mapper-tutorial
 - http://gdpotter.com/2017/05/24/custom-spring-mvc-jackson/
+- hide field : https://stackoverflow.com/questions/14708386/want-to-hide-some-fields-of-an-object-that-are-being-mapped-to-json-by-jackson
 
 ## integration test
 - https://lucianomolinari.com/2018/05/02/automating-integration-tests-with-docker-compose-and-makefile/
