@@ -1,5 +1,12 @@
 ## mongo
 - https://www.baeldung.com/spring-data-mongodb-index-annotations-converter
+- https://stackoverflow.com/questions/43966601/spring-data-mongodb-how-to-assign-expiration-time-programatically
+
+## redis
+- https://github.com/eugenp/tutorials/blob/master/persistence-modules/spring-data-redis/src/test/java/com/baeldung/spring/data/redis/repo/StudentRepositoryIntegrationTest.java
+
+## kafka
+- https://www.baeldung.com/spring-kafka
 
 ## test
 - https://www.baeldung.com/spring-boot-testing
