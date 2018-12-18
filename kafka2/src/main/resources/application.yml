@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: application
+      auto-offset-reset: latest
