@@ -1,5 +1,7 @@
 package tutorial;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,14 @@ import tutorial.domain.Pet;
 @RequestMapping("/pet")
 public class PetController {
 
-  @Autowired private PetRepository repository;
-  @Autowired private KafkaTemplate<String, String> kafkaTemplate;
+  @Autowired
+  private PetRepository repository;
+
+  @Autowired
+  private KafkaTemplate<String, String> kafkaTemplate;
+
+  @Autowired
+  private ObjectMapper objectMapper;
 
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -53,6 +61,11 @@ public class PetController {
   public void modifyPetById(@PathVariable("id") String id, @Valid @RequestBody Pet pet) {
     pet.setId(id);
     repository.save(pet);
-    kafkaTemplate.send(KafkaListenerBean.TOPIC, id, pet.toString());
+
+    try {
+      kafkaTemplate.send(KafkaListenerBean.TOPIC, id, objectMapper.writeValueAsString(pet));
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
   }
 }
