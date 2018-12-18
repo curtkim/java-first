@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: dev
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    mongodb:
+      port: 27017
+      host: localhost
+      database: test
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: redis-mongo-kafka
+      auto-offset-reset: latest
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+logging:
+  level:
+    root: INFO
+
+---
+spring:
+  profiles: alpha
+
+
+---
+spring:
+  profiles: prod
