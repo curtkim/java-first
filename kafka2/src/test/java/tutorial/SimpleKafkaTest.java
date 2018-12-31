@@ -9,8 +9,8 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,19 +18,18 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
-
 import java.util.Collections;
 import java.util.Map;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @EmbeddedKafka
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class SimpleTest {
 
-  private static final String INPUT_TOPIC = "testEmbeddedIn";
-  private static final String OUTPUT_TOPIC = "testEmbeddedOut";
+  private static final String TOPIC = "testEmbedded";
   private static final String GROUP_NAME = "embeddedKafkaApplication";
 
   @Autowired
@@ -43,7 +42,7 @@ public class SimpleTest {
     senderProps.put("value.serializer", ByteArraySerializer.class);
     DefaultKafkaProducerFactory<byte[], byte[]> pf = new DefaultKafkaProducerFactory<>(senderProps);
     KafkaTemplate<byte[], byte[]> template = new KafkaTemplate<>(pf, true);
-    template.setDefaultTopic(INPUT_TOPIC);
+    template.setDefaultTopic(TOPIC);
     template.sendDefault("foo".getBytes());
 
     Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(GROUP_NAME, "false", embeddedKafka);
@@ -53,12 +52,12 @@ public class SimpleTest {
     DefaultKafkaConsumerFactory<byte[], byte[]> cf = new DefaultKafkaConsumerFactory<>(consumerProps);
 
     Consumer<byte[], byte[]> consumer = cf.createConsumer();
-    consumer.subscribe(Collections.singleton(OUTPUT_TOPIC));
+    consumer.subscribe(Collections.singleton(TOPIC));
     ConsumerRecords<byte[], byte[]> records = consumer.poll(10_000);
     consumer.commitSync();
 
     assertThat(records.count()).isEqualTo(1);
-    assertThat(new String(records.iterator().next().value())).isEqualTo("FOO");
+    assertThat(new String(records.iterator().next().value())).isEqualTo("foo");
   }
 
 }
