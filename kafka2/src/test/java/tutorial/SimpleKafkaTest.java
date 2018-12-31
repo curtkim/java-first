@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @EmbeddedKafka
 @ExtendWith(SpringExtension.class)
-public class SimpleTest {
+public class SimpleKafkaTest {
 
   private static final String TOPIC = "testEmbedded";
   private static final String GROUP_NAME = "embeddedKafkaApplication";

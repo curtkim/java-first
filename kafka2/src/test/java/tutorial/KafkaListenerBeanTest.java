@@ -74,7 +74,7 @@ public class KafkaListenerBeanTest {
     System.out.println("=====");
 
     kafkaTemplate.send(KafkaListenerBean.TOPIC, "123");
-    Thread.currentThread().sleep(1*1000);
+    Thread.currentThread().sleep(2*1000);
     assertEquals("123", dao.buffer.get(0));
   }
 }
