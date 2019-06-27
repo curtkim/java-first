@@ -1,18 +1,25 @@
 package example;
 
 import org.springframework.web.reactive.socket.WebSocketHandler;
+import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 public class EchoHandler implements WebSocketHandler
 {
   @Override
   public Mono<Void> handle(WebSocketSession session)
   {
-    return session
-        .send( session.receive()
-            .map(msg -> "RECEIVED ON SERVER :: " + msg.getPayloadAsText())
-            .map(session::textMessage)
-        );
+    Flux<WebSocketMessage> output = session.receive()
+        .switchMap(message -> {
+          String body = message.getPayloadAsText();
+          return Flux.interval(Duration.ofSeconds(1)).map(it -> body);
+        })
+        .map(value -> session.textMessage("Echo " + value));
+
+    return session.send(output);
   }
 }
