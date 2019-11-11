@@ -32,10 +32,16 @@ public class EchoApplication {
   }
 
   @Bean
+  public ReceiveHandler receiveHandler() {
+    return new ReceiveHandler();
+  }
+
+  @Bean
   public HandlerMapping handlerMapping() {
     Map<String, WebSocketHandler> map = new HashMap<>();
     map.put("/echo", echoHandler());
     map.put("/interval", intervalHandler());
+    map.put("/receive/{carId}", receiveHandler());
 
     SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
     mapping.setUrlMap(map);

@@ -1,5 +1,5 @@
 var ws = null;
-var url = "ws://localhost:8080/echo";
+var url = "ws://localhost:8080/receive/car1";
 
 function setConnected(connected)
 {
