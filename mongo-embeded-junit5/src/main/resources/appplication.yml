@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: alpha
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: example
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
