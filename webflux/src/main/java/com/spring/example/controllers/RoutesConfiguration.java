@@ -24,11 +24,11 @@ public class RoutesConfiguration {
           route(RequestPredicates.GET("/{id}"),
             request -> ok().body(personRespository.findById(request.pathVariable("id")), Person.class))
 
-            .andRoute(method(HttpMethod.POST),
+          .andRoute(method(HttpMethod.POST),
               request -> {
                 personRespository.insert(request.bodyToMono(Person.class)).subscribe();
-            return ok().build();
-        })
+                return ok().build();
+              })
         );
     }
 }
