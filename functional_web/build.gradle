@@ -1,0 +1,47 @@
+buildscript {
+	ext {
+		springBootVersion = '2.2.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+
+dependencies {
+
+	implementation('io.projectreactor:reactor-core')
+	implementation('org.springframework:spring-context')
+	implementation('org.springframework:spring-webflux')
+	implementation('com.fasterxml.jackson.core:jackson-databind:2.9.1')
+
+	implementation "io.projectreactor.netty:reactor-netty:0.9.1.RELEASE"
+	//implementation 'org.apache.tomcat.embed:tomcat-embed-core:8.5.4'
+	
+	/*
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
+	compile('org.springframework.boot:spring-boot-starter-webflux')
+	*/
+
+	testImplementation('io.projectreactor:reactor-test')
+    testImplementation('junit:junit:4.11')
+}
