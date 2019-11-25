@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/43622053/how-to-serve-static-content-using-webflux

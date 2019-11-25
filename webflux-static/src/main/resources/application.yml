@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: spring-cloud-gateway
+  webflux.static-path-pattern: "/**"
+  resources.static-locations: "file:public/"
+
+  data:
+    mongodb:
+      database: demo
