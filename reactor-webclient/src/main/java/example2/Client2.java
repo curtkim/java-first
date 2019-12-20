@@ -14,12 +14,14 @@ public class Client2 {
 
     int numOfTasks = 10;
     List<Integer> result = Flux.range(0, numOfTasks)
-        .flatMapSequential(index -> Mono.fromCallable(() -> {
-          Thread.sleep(ThreadLocalRandom.current().nextLong(2000));
-          System.out.println(String.format("[%s] Run %d", Thread.currentThread().getName(), index));
-          return index;
-        })
-        .publishOn(Schedulers.newParallel("myPara", 2)))
+        .flatMapSequential(index ->
+                Mono.fromCallable(() -> {
+                  Thread.sleep(ThreadLocalRandom.current().nextLong(2000));
+                  System.out.println(String.format("[%s] Run %d", Thread.currentThread().getName(), index));
+                  return index;
+                })
+                .publishOn(Schedulers.elastic())
+        , 2)
         .collectList()
         .block();
 
