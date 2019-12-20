@@ -17,16 +17,22 @@ public class Client {
 
     long startTime = System.currentTimeMillis();
     Mono<List<String>> result = Flux.just(
-        new Pair("John", 1000), new Pair("Mike", 1000), new Pair("Sarah", 700),
-        new Pair("A", 1000), new Pair("B", 1000), new Pair("C", 700),
-        new Pair("D", 1000), new Pair("E", 1000), new Pair("F", 700)
+            new Pair("John", 1000),
+            new Pair("Mike", 1000),
+            new Pair("Sarah", 700),
+            new Pair("A", 100),
+            new Pair("B", 100),
+            new Pair("C", 700),
+            new Pair("D", 100),
+            new Pair("E", 100),
+            new Pair("F", 700)
         )
         .flatMapSequential( it -> {
           String url = String.format("/?msg=%s&delay=%d",it.name, it.delay);
           System.out.println(Thread.currentThread().getName() + " " + url);
           return webClient.get().uri(url).retrieve().bodyToMono(String.class).log();
         })
-        .publishOn(Schedulers.elastic())
+        .publishOn(Schedulers.parallel())
         .collectList();
 
     System.out.println(result.block());
@@ -34,12 +40,3 @@ public class Client {
   }
 }
 
-class Pair {
-  String name;
-  long delay;
-
-  public Pair(String name, long delay) {
-    this.name = name;
-    this.delay = delay;
-  }
-}
