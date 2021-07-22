@@ -16,6 +16,7 @@ public class EchoHandler implements WebSocketHandler
     Flux<WebSocketMessage> output = session.receive()
         .switchMap(message -> {
           String body = message.getPayloadAsText();
+          System.out.println("receive from client" + body);
           return Flux.interval(Duration.ofSeconds(1)).map(it -> body);
         })
         .map(value -> session.textMessage("Echo " + value));

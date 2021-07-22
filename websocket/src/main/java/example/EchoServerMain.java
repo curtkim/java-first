@@ -16,9 +16,9 @@ import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAd
 import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyRequestUpgradeStrategy;
 
 @SpringBootApplication
-public class EchoApplication {
+public class EchoServerMain {
   public static void main(String[] args) {
-    SpringApplication.run(EchoApplication.class, args);
+    SpringApplication.run(EchoServerMain.class, args);
   }
 
   @Bean

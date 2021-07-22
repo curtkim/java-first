@@ -26,7 +26,7 @@ public class ReceiveHandler implements WebSocketHandler {
 
         // for health check
         return session.send(
-                Flux.interval(Duration.ofMinutes(3))
+                Flux.interval(Duration.ofSeconds(3))
                         .map(it -> "ok")
                         .map(session::textMessage));
     }
