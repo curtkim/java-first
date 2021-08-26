@@ -1,4 +1,4 @@
-package example;
+package example.server;
 
 import io.netty.buffer.ByteBuf;
 
@@ -12,6 +12,8 @@ public class EchoHandler extends ChannelInboundHandlerAdapter { // (1)
 
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
+    ByteBuf buf = (ByteBuf)msg;
+    System.out.println("read " + new String(buf.toString()));
     ctx.write(msg); // (1)
     ctx.flush(); // (2)
   }
