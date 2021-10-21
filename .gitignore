@@ -1,8 +1,6 @@
 */.gradle
 */build
 */out
-*/gradlew*
-*/gradle/*
 */.idea
 *.iml
 kafka-sse
