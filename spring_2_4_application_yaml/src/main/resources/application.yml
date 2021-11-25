@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    group:
+      dev: dev
+      alpha: alpha
+      real: real
+
+app:
+  name: helllo
+  color: yellow
+
+
+---
+
+spring.config.activate.on-profile: alpha
+
+app.color: red
+
+---
+
+spring.config.activate.on-profile: real
+
+app.color: blue
