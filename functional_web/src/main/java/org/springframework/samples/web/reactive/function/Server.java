@@ -24,15 +24,6 @@ public class Server {
 
     public static final int PORT = 8080;
 
-    public static void main(String[] args) throws Exception {
-        Server server = new Server();
-        server.startReactorServer();
-//		server.startTomcatServer();
-
-        System.out.println("Press ENTER to exit.");
-        System.in.read();
-    }
-
     public RouterFunction<ServerResponse> routingFunction() {
         PersonRepository repository = new DummyPersonRepository();
         PersonHandler handler = new PersonHandler(repository);
