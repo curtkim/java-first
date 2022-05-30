@@ -1,13 +1,14 @@
 package example;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
-import org.bson.Document;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,7 +28,7 @@ public class MongoDbSpringIntegrationTest {
         mongoTemplate.save(objectToSave, "collection");
 
         // then
-        Document doc = (Document)mongoTemplate.findAll(DBObject.class, "collection").get(0);
+        BasicDBObject doc = (BasicDBObject) mongoTemplate.findAll(DBObject.class, "collection").get(0);
         assertEquals("value", doc.get("key"));
     }
 }

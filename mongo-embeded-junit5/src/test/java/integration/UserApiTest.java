@@ -1,12 +1,12 @@
 package integration;
 
-import com.mongodb.MongoClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
-import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -28,9 +28,8 @@ public class UserApiTest {
 
     @BeforeAll
     static void setup() {
-        MongoClient client = new MongoClient("localhost", 27017);
-        MongoDbFactory mongoDbFactory =  new SimpleMongoDbFactory(client, "test");
-        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
+        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory("mongodb://localhost:27017/test");
+        MongoTemplate mongoTemplate = new MongoTemplate(factory);
         mongoTemplate.dropCollection("user");
     }
 
