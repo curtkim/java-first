@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class FileRead {
   // private methods to handle checked exceptions
 
-  static private void close(Closeable closeable){
+  static void close(Closeable closeable) {
     try {
       closeable.close();
       System.out.println("Closed the resource");
@@ -25,7 +25,7 @@ public class FileRead {
     }
   }
 
-  static private void write(BufferedWriter bw, String string){
+  static void write(BufferedWriter bw, String string) {
     try {
       bw.write(string);
       bw.newLine();
@@ -41,7 +41,10 @@ public class FileRead {
     Flux<String> stringFlux = Flux.using(
         () -> Files.lines(ipPath),
         Flux::fromStream,
-        Stream::close
+        (stream) -> {
+          System.out.println("resource cleanup");
+          stream.close();
+        }
     );
 
     // output file
@@ -49,9 +52,17 @@ public class FileRead {
     BufferedWriter bw = Files.newBufferedWriter(opPath, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
     stringFlux
-        .subscribe(s -> write(bw, s),
-            (e) -> close(bw),  // close file if error / oncomplete
-            () -> close(bw)
+        .subscribe(s -> {
+              System.out.println("\t-- " + s);
+              write(bw, s);
+            },
+            (e) -> {
+              close(bw);
+            },  // close file if error / oncomplete
+            () -> {
+              System.out.println("complete");
+              close(bw);
+            }
         );
   }
 }

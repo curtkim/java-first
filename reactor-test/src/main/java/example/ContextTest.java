@@ -44,8 +44,7 @@ public class ContextTest {
   private static void basic() {
     String key = "message";
     Mono<String> r = Mono.just("Hello")
-        .flatMap(s -> Mono.deferContextual(ctx ->
-            Mono.just(s + " " + ctx.get(key))))
+        .flatMap(s -> Mono.deferContextual(ctx -> Mono.just(s + " " + ctx.get(key))))
         .contextWrite(ctx -> ctx.put(key, "World"));
 
     StepVerifier.create(r)
