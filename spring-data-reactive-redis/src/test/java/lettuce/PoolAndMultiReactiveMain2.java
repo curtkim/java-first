@@ -10,10 +10,8 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.logging.Level;
 
 public class PoolAndMultiReactiveMain2 {
 
@@ -49,8 +47,8 @@ public class PoolAndMultiReactiveMain2 {
             (c) -> Mono.just(c.reactive()),
             (c) -> {
               logger.info("connection close");
-              //pool.returnObject(c);
-              c.close();
+              pool.returnObject(c);
+              //c.close();
             },
             false // set to true to clean before any signal (including onNext) is passed downstream
         )
@@ -64,7 +62,7 @@ public class PoolAndMultiReactiveMain2 {
           return doMultiAndExec(cmd);
         })
         .subscribe(
-            (result) -> {
+            (TransactionResult result) -> {
               logger.info("subscribe");
               logger.info(result.toString());
             }

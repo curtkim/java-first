@@ -39,8 +39,8 @@ public class PoolAndMultiReactiveMain {
         return commands.exec();
       });
     }).subscribe((result)->{
-      System.out.println((String) result.get(0));
-      System.out.println((Long) result.get(1));
+      System.out.println(result.<String>get(0));
+      System.out.println(result.<Long>get(1));
     });
 
     // terminating
