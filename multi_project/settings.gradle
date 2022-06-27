@@ -1,0 +1,4 @@
+rootProject.name = 'multi_project'
+include 'core'
+include 'web'
+

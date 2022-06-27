@@ -1,0 +1,45 @@
+plugins {
+    //id 'java'
+    id 'java-library'
+}
+
+group 'org.example'
+version = '0.0.3'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'org.json:json:20220320'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task welcome {
+    doLast {
+        println "$project.name"
+    }
+}
+
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name 'test'
+            url "http://.."
+            allowInsecureProtocol true
+        }
+    }
+}
