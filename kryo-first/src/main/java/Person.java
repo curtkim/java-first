@@ -7,6 +7,19 @@ class Person implements Serializable {
   private int age = 18;
   private Date birthDate = new Date(933191282821L);
 
+  public Person(){}
+
+
+  private int calculateAge(long birthDate) {
+    // Some custom logic
+    return 18;
+  }
+  public Person(String name, Date birthDate) {
+    this.name = name;
+    this.birthDate = birthDate;
+    this.age = calculateAge(birthDate.getTime());
+  }
+
   public String getName() {
     return name;
   }

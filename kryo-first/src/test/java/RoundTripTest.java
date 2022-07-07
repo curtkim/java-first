@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RoundTripTest {
 
-
   @Test
   public void testDate(){
     Kryo kryo = new Kryo();
@@ -26,6 +25,7 @@ public class RoundTripTest {
 
     assertEquals(object1, object2);
 
+    // compare with SerializableUtils
     byte[] bytes = SerializableUtils.serialize(object1);
     System.out.println("bytes size = "+ bytes.length);
   }
@@ -43,7 +43,7 @@ public class RoundTripTest {
 
     Output output = new Output(1024, -1);
     kryo.writeObject(output, object1);
-    System.out.println("output.position()= "+output.position());
+    System.out.println("output.position()= "+output.position());              // 18 bytes
 
     Input input = new Input(output.getBuffer(), 0, output.position());
     Person object2 = kryo.readObject(input, Person.class);
@@ -51,6 +51,6 @@ public class RoundTripTest {
     assertEquals(object1, object2);
 
     byte[] bytes = SerializableUtils.serialize(object1);
-    System.out.println("bytes size = "+ bytes.length);
+    System.out.println("bytes size = "+ bytes.length);                        // 151 bytes
   }
 }

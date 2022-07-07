@@ -32,6 +32,7 @@ public class kryoTest {
     kryo.writeClassAndObject(output, someObject);
     output.close();
 
+    // class를 모르는 경우
     Object theObject = kryo.readClassAndObject(input);
     input.close();
 
@@ -47,6 +48,7 @@ public class kryoTest {
     kryo.writeObject(output, someDate);
     output.close();
 
+    // class와 not null을 아는 경우
     String readString = kryo.readObject(input, String.class);
     Date readDate = kryo.readObject(input, Date.class);
     input.close();
