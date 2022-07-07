@@ -87,11 +87,11 @@ public class CompatibleFieldSerializerTest {
     compatibleFieldSerializer2.write(kryo, output, data2);
     output.close();
 
-    Data1 readed = compatibleFieldSerializer1.read(kryo, input, Data1.class);
+    Data1 read = compatibleFieldSerializer1.read(kryo, input, Data1.class);
     input.close();
 
-    assertEquals(readed.name, "kim");
-    assertEquals(readed.age, 20);
+    assertEquals(read.name, "kim");
+    assertEquals(read.age, 20);
 
     assertEquals(19, Util.getFileSize("file.dat"));
   }
