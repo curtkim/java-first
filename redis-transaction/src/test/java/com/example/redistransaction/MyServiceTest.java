@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@Import(ServiceConfig.class)
+@Import({ServiceConfig.class, RedisTxContextConfig.class})
 @DataRedisTest
 public class MyServiceTest {
 
@@ -34,6 +34,7 @@ public class MyServiceTest {
     try {
       myService.doit();
     }catch (Exception ex) {
+      System.out.println(ex.getMessage());
       //ignore
     }
 

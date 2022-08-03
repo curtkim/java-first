@@ -23,5 +23,7 @@ public class RedisScriptApplication implements CommandLineRunner {
         System.out.println(echoService.echo("hello"));
 
         System.out.println(lockService.acquire("id1"));
+
+        System.out.println(lockService.doit("id2", "test"));
     }
 }

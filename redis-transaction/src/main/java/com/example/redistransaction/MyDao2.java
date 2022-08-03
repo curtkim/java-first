@@ -17,6 +17,7 @@ public class MyDao2 {
     redisTemplate.execute(new SessionCallback() {
       @Override
       public Object execute(RedisOperations operations) throws DataAccessException {
+
         operations.opsForValue().set("KAROL", "2");
         throw new RuntimeException("exception occur");
       }

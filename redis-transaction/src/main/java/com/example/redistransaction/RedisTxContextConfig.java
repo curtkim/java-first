@@ -22,8 +22,10 @@ public class RedisTxContextConfig {
     return template;
   }
 
+  /*
   @Bean
   public PlatformTransactionManager transactionManager() throws SQLException {
     return new DataSourceTransactionManager();
   }
+   */
 }
