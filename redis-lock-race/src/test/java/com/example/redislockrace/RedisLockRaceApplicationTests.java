@@ -1,10 +1,10 @@
-package com.example.redistransaction;
+package com.example.redislockrace;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RedisTransactionApplicationTests {
+class RedisLockRaceApplicationTests {
 
   @Test
   void contextLoads() {
