@@ -72,7 +72,7 @@ public class SimpleMain {
 
     ArrayList<Flux<Tuple3<String, Long, String>>> streams = new ArrayList<>();
     for(int i =0; i < 10; i++)
-      streams.add( makeRequestSeq(i+"", 100, 30, client));
+      streams.add( makeRequestSeq(i+"", 30, 30, client));
 
     Flux.merge(streams)
         .filter((tuple)-> !tuple.getT3().equals("ok")) //&& tuple.getT3().startsWith("false"))
