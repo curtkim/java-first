@@ -75,7 +75,7 @@ public class SimpleMain {
       streams.add( makeRequestSeq(i+"", 30, 30, client));
 
     Flux.merge(streams)
-        .filter((tuple)-> !tuple.getT3().equals("ok")) //&& tuple.getT3().startsWith("false"))
+        .filter((tuple)-> !tuple.getT3().equals("ok"))// && tuple.getT3().contains("false"))
         .doOnNext(System.out::println)
         .collectList()
         .block();

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
+//@Service
 public class MyService2 extends MyService{
 
     private static final Logger logger = LoggerFactory.getLogger(MyService2.class);

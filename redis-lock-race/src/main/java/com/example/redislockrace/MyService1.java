@@ -21,16 +21,10 @@ public class MyService1 extends MyService {
       public List<Object> execute(RedisOperations operations) throws DataAccessException {
         // 1.watch
         if(isEnd) {
-          //redisTemplate.opsForValue().increment(verKey(id));
-          operations.opsForValue().set(statusKey(id), Status.ENDING.name());
+          redisTemplate.opsForValue().increment(verKey(id));
         }
         else {
-          Status oldStatus = Status.valueOf(operations.opsForValue().get(statusKey(id)).toString());
-          if(oldStatus != Status.READY)
-            return Arrays.asList();
-
-          operations.opsForValue().set(statusKey(id), Status.APPENDING.name());
-          //redisTemplate.watch(verKey(id));
+          redisTemplate.watch(verKey(id));
         }
 
         // 2.get
@@ -45,11 +39,9 @@ public class MyService1 extends MyService {
         // 4.save
         operations.multi();
         if(isEnd){
-          operations.opsForValue().set(statusKey(id), Status.COMPLETE.name());
         }
         else {
-          //operations.opsForValue().increment(verKey(id));
-          operations.opsForValue().set(statusKey(id), Status.READY.name());
+          operations.opsForValue().increment(verKey(id));
         }
 
         operations.opsForList().rightPush(listKey(id), value);
@@ -69,7 +61,6 @@ public class MyService1 extends MyService {
         int newSum = Integer.parseInt(value);
         // save
         operations.multi();
-        operations.opsForValue().set(statusKey(id), Status.READY.name());
         operations.opsForList().rightPush(listKey(id), value);
         operations.opsForValue().set(sumKey(id), newSum+"");
         return operations.exec();

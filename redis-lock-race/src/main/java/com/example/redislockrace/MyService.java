@@ -48,7 +48,7 @@ public abstract class MyService {
         List<String> strValues = redisTemplate.opsForList().range(listKey(id), 0, -1);
         List<Integer> values = strValues.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList());
 
-        Status status = Status.valueOf(redisTemplate.opsForValue().get(statusKey(id)));
+        //Status status = Status.valueOf(redisTemplate.opsForValue().get(statusKey(id)));
         String sum = redisTemplate.opsForValue().get(sumKey(id));
 
 
@@ -56,8 +56,8 @@ public abstract class MyService {
         boolean isValid = Integer.parseInt(sum) == valueSum;
         boolean isSorted = Utils.isSorted(values);
 
-        return String.format("id=%s(%s) : isValid=%s isSorted=%s\n%s = %s (%s)",
-                id, status, isValid, isSorted,
+        return String.format("id=%s : isValid=%s isSorted=%s\n%s = %s (%s)",
+                id, isValid, isSorted,
                 sum, valueSum, strValues.stream().collect(Collectors.joining("+")));
     }
 
