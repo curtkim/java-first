@@ -79,6 +79,17 @@ public class ListTest {
         );
     }
 
+    @Test
+    public void splitAtPredicate_noSplit() {
+        assertEquals(
+                Tuple.of(
+                        List.of(1, 2),
+                        List.of()
+                ),
+                List.rangeClosed(1, 2).splitAt(new DurationPredicate(3))
+        );
+    }
+
     class DurationPredicate implements Predicate<Integer> {
         private int duration;
         private Integer first;
