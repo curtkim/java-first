@@ -54,4 +54,9 @@ public class ListTest {
             List.of().last();
         });
     }
+
+    @Test
+    public void foreach(){
+        List.of(1,2,3).forEach((i-> System.out.println(i)));
+    }
 }
