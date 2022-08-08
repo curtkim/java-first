@@ -2,6 +2,7 @@ import io.vavr.Tuple;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
@@ -79,7 +80,6 @@ public class ListTest {
     }
 
     class DurationPredicate implements Predicate<Integer> {
-
         private int duration;
         private Integer first;
 
@@ -97,5 +97,13 @@ public class ListTest {
 
             return false;
         }
+    }
+
+    @Test
+    public void createList() {
+        java.util.List<Integer> javaList = Arrays.asList(1, 2, 3);
+        List<Integer> list = List.of(javaList.toArray(new Integer[0]));
+
+        assertEquals(List.of(1, 2, 3), list);
     }
 }
