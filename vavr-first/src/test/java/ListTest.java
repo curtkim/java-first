@@ -1,7 +1,9 @@
+import io.vavr.Tuple;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,27 +38,64 @@ public class ListTest {
     }
 
     @Test
-    public void flatmap(){
+    public void flatmap() {
         assertEquals(
-                List.of(1,1,2,2,3,3),
-                List.of(1,2,3).flatMap((it)-> List.of(it, it))
+                List.of(1, 1, 2, 2, 3, 3),
+                List.of(1, 2, 3).flatMap((it) -> List.of(it, it))
         );
     }
 
     @Test
-    public void lastOption(){
-       assertTrue(List.of().lastOption().isEmpty());
+    public void lastOption() {
+        assertTrue(List.of().lastOption().isEmpty());
     }
 
     @Test
-    public void emptyList_last(){
-        assertThrows(NoSuchElementException.class, ()-> {
+    public void emptyList_last() {
+        assertThrows(NoSuchElementException.class, () -> {
             List.of().last();
         });
     }
 
     @Test
-    public void foreach(){
-        List.of(1,2,3).forEach((i-> System.out.println(i)));
+    public void foreach() {
+        List.of(1, 2, 3).forEach((i -> System.out.println(i)));
+    }
+
+    @Test
+    public void splitAt() {
+        assertEquals(
+                Tuple.of(List.of(1, 2, 3, 4, 5), List.of(6, 7, 8, 9, 10)),
+                List.rangeClosed(1, 10).splitAt(5)
+        );
+    }
+
+    @Test
+    public void splitAtPredicate() {
+        assertEquals(
+                Tuple.of(List.of(1, 2, 3), List.of(4, 5, 6, 7, 8, 9, 10)),
+                List.rangeClosed(1, 10).splitAt(new DurationPredicate(3))
+        );
+    }
+
+    class DurationPredicate implements Predicate<Integer> {
+
+        private int duration;
+        private Integer first;
+
+        public DurationPredicate(int duration) {
+            this.duration = duration;
+        }
+
+        @Override
+        public boolean test(Integer integer) {
+            if (first == null)
+                first = integer;
+
+            if (integer - first >= duration)
+                return true;
+
+            return false;
+        }
     }
 }
