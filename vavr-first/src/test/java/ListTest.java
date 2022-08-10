@@ -3,6 +3,7 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
@@ -116,5 +117,20 @@ public class ListTest {
         List<Integer> list = List.of(javaList.toArray(new Integer[0]));
 
         assertEquals(List.of(1, 2, 3), list);
+    }
+
+    @Test
+    public void slideBy() {
+        Iterator<List<Integer>> iter = List.rangeClosed(4, 10).slideBy(x -> x / 3);
+        assertEquals( List.of(4,5), iter.next());
+        assertEquals( List.of(6,7,8), iter.next());
+        assertEquals( List.of(9,10), iter.next());
+    }
+
+    @Test
+    public void subtract(){
+        List a = List.of(1,2,3);
+        List b = a.appendAll(List.of(4,5));
+        assertEquals(List.of(4,5), b.subSequence(a.size()));
     }
 }
