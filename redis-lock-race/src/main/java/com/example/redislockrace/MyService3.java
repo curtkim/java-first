@@ -45,7 +45,7 @@ public class MyService3 extends MyService{
         operations.watch(sumKey(id));
 
         // end후에 호출되는 경우에
-        if(redisTemplate.hasKey(endKey(id)))
+        if(operations.hasKey(endKey(id)))
           return Arrays.asList();
 
         // begin전에 호출되는 경우에
