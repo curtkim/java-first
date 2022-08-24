@@ -45,11 +45,11 @@ public class MyService3 extends MyService{
         operations.watch(sumKey(id));
 
         // end후에 호출되는 경우에
-        if(redisTemplate.hasKey(endKey(id)))
+        if(operations.hasKey(endKey(id)))
           return Arrays.asList();
 
         // begin전에 호출되는 경우에
-        String strSum = redisTemplate.opsForValue().get(sumKey(id));
+        String strSum = (String)operations.opsForValue().get(sumKey(id));
         if(strSum == null)
           return Arrays.asList();
 
@@ -73,11 +73,11 @@ public class MyService3 extends MyService{
       @Override
       public List<Object> execute(RedisOperations operations) throws DataAccessException {
         // 1.guard
-        redisTemplate.expire(sumKey(id), Duration.ofMinutes(5));
-        redisTemplate.opsForValue().set(endKey(id), "O");
+        operations.expire(sumKey(id), Duration.ofMinutes(5));
+        operations.opsForValue().set(endKey(id), "O");
 
         // 2.get
-        String strSum = redisTemplate.opsForValue().get(sumKey(id));
+        String strSum = (String)operations.opsForValue().get(sumKey(id));
         if(strSum == null)
           return Arrays.asList();
 

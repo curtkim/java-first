@@ -57,7 +57,7 @@ public class MyService2 extends MyService{
             @Override
             public List<Object> execute(RedisOperations operations) throws DataAccessException {
                 // 1.watch
-                redisTemplate.watch(sumKey(id));
+                operations.watch(sumKey(id));
 
                 String strStatus = (String)operations.opsForValue().get(statusKey(id));
                 Status oldStatus = Status.valueOf(strStatus);
@@ -68,7 +68,7 @@ public class MyService2 extends MyService{
                 //redisTemplate.watch(verKey(id));
 
                 // 2.get
-                String strSum = redisTemplate.opsForValue().get(sumKey(id));
+                String strSum = (String)operations.opsForValue().get(sumKey(id));
                 if(strSum == null)
                     return Arrays.asList();
 
@@ -103,11 +103,11 @@ public class MyService2 extends MyService{
             @Override
             public List<Object> execute(RedisOperations operations) throws DataAccessException {
                 // 1.watch
-                redisTemplate.opsForValue().increment(verKey(id));
+                operations.opsForValue().increment(verKey(id));
                 operations.opsForValue().set(statusKey(id), Status.ENDING.name());
 
                 // 2.get
-                String strSum = redisTemplate.opsForValue().get(sumKey(id));
+                String strSum = (String)operations.opsForValue().get(sumKey(id));
                 if(strSum == null)
                     return Arrays.asList();
 
