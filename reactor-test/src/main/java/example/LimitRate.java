@@ -1,6 +1,8 @@
 package example;
 
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -28,12 +30,17 @@ public class LimitRate {
 
     // Once the 75% of data got drained/emitted, then it automatically requests to refill the amount
     // 8개를 요청하게 된다.
+    Scheduler myParallel = Schedulers.newParallel("my", 2);
+
     Flux.range(1, 100)
         .log()
         .limitRate(10)
-        .delayElements(Duration.ofMillis(100))
-        .subscribe(System.out::println);
+        .delayElements(Duration.ofMillis(100), myParallel)
+        .subscribe(it -> {
+          System.out.println(it + " " + Thread.currentThread().getName());
+        });
     Thread.sleep(5000);
-
   }
+
+
 }
