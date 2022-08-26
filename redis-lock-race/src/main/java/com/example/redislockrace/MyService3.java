@@ -39,7 +39,7 @@ public class MyService3 extends MyService{
 
   @Override
   void append(String id, String value) {
-    List<Object> results = redisTemplate.execute(new SessionCallback<List<Object>>() {
+    List<Object> results = operations.execute(new SessionCallback<List<Object>>() {
       @Override
       public List<Object> execute(RedisOperations operations) throws DataAccessException {
         operations.watch(sumKey(id));
