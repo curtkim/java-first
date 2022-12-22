@@ -7,7 +7,6 @@ import com.esotericsoftware.kryo.io.KryoObjectOutput;
 import com.esotericsoftware.kryo.io.Output;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,6 +15,11 @@ import java.nio.file.Paths;
 public class ObjectIO {
 
   public static void main(String[] args) throws IOException, ClassNotFoundException {
+    doWithFile();
+  }
+
+  static void doWithFile() throws IOException, ClassNotFoundException {
+
     String fileName = "books.data";
 
     Kryo kryo = new Kryo();
@@ -50,11 +54,11 @@ public class ObjectIO {
       Input input = new Input(fis);
       KryoObjectInput objectInput = new KryoObjectInput(kryo, input);
 
-      while(input.position() < size){
+      while (input.position() < size) {
         Book book = (Book) objectInput.readObject();
         System.out.println(book);
       }
     }
-  }
 
+  }
 }
