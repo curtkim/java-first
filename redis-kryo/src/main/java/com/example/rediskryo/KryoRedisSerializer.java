@@ -15,8 +15,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
 
   @Override
   public byte[] serialize(T t) throws SerializationException {
-    byte[] buffer = new byte[32];
-    Output output = new Output(buffer, 1024*10);
+    Output output = new Output(32, 1024*10);
     kryo.writeClassAndObject(output, t);
     return output.toBytes();
   }
