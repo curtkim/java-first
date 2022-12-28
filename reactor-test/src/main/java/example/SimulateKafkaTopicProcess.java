@@ -4,6 +4,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,29 +15,34 @@ public class SimulateKafkaTopicProcess {
   public static void main(String[] args) {
 
     int count = 300;
-    int partitions = 5;
+    int partitions = 10;
     Scheduler parallelScheduler = Schedulers.newParallel("parallel", partitions);
-    Scheduler elasticScheduler = Schedulers.newBoundedElastic(10, 1000, "elastic");
 
     long startTime = System.currentTimeMillis();
     List<Long> result = Flux.range(0, count)
         .groupBy(i -> i % partitions)
         .flatMap(groupFlux ->
-            //groupFlux.map(SimulateKafkaTopicProcess::process)
-            //groupFlux.publishOn(parallelScheduler).map(SimulateKafkaTopicProcess::process)
-            //groupFlux.publishOn(elasticScheduler).map(SimulateKafkaTopicProcess::process)
-            groupFlux.publishOn(parallelScheduler).flatMapSequential(SimulateKafkaTopicProcess::processAsFlux, 2)
+            //groupFlux.map(SimulateKafkaTopicProcess::process)                                     // 16675ms 300*50
+            //groupFlux.publishOn(parallelScheduler).map(SimulateKafkaTopicProcess::process)      // 1957ms  300*50/10
+            //groupFlux.concatMap(SimulateKafkaTopicProcess::processAsFlux)                         // 1877ms
+            //groupFlux.flatMapSequential(SimulateKafkaTopicProcess::processAsFlux)               // 184ms
+            //groupFlux.flatMapSequential(SimulateKafkaTopicProcess::processAsFlux, 2)            // 1115ms
+            groupFlux.flatMapSequential(SimulateKafkaTopicProcess::processAsFlux, 5)  // 588ms
         )
         //.doOnNext(SimulateKafkaTopicProcess::print)
-        .collectList().block();
+        .collectList()
+        .block();
+
 
     System.out.println("time=" + (System.currentTimeMillis() - startTime));
     parallelScheduler.dispose();
-    elasticScheduler.dispose();
 
+    System.out.println(result.stream().map(it -> it.toString()).collect(Collectors.joining(",")));
+
+    assert result.size() == count;
     Map<Long, List<Long>> groupByResults = result.stream().collect(Collectors.groupingBy(it -> it % partitions));
     for (Long partition : groupByResults.keySet()) {
-      assert groupByResults.get(result).size() == count / partition;
+      assert groupByResults.get(partition).size() == count / partitions;
       assert isSorted(groupByResults.get(partition));
     }
     System.out.println("success");
@@ -55,7 +61,12 @@ public class SimulateKafkaTopicProcess {
   }
 
   public static Flux<Long> processAsFlux(long value){
-    return Flux.just(process(value));
+    return Flux.just(value).delayElements(Duration.ofMillis(randomLong()));
+    // 명시적으로 Thread.sleep()호출 하는 것보다, delayElements를 호출하면 더 효율적이다.
+  }
+
+  static long randomLong(){
+    return ThreadLocalRandom.current().nextInt(1, 100);
   }
 
   public static long process(long value) {
