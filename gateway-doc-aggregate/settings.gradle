@@ -1,0 +1,5 @@
+rootProject.name = 'gateway-multi-module'
+
+include 'gateway'
+include 'book-service'
+include 'board-service'

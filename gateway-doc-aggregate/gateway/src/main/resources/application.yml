@@ -1,0 +1,34 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  cloud:
+    gateway:
+      default-filters:
+      routes:
+        - id: book-service
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/book/**
+#          filters:
+#            - RewritePath=/book/(?<segment>.*),/$\{segment}
+
+        - id: board-service
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/board/**
+#          filters:
+#            - RewritePath=/board/(?<segment>.*),/$\{segment}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "gateway"
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      show-details: always
