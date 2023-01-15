@@ -1,3 +1,8 @@
+## reference
+https://spring.io/guides/gs/vault-config/
+https://kim-oriental.tistory.com/50
+https://spring.io/blog/2020/08/14/config-file-processing-in-spring-boot-2-4
+
 ## vault
 
     export export VAULT_TOKEN="00000000-0000-0000-0000-000000000000"
@@ -16,3 +21,10 @@
     SPRING_PROFILES_ACTIVE=cloud ./gradlew bootRun
     Vault location [secret/application/cloud] not resolvable: Not found
     Vault location [secret/application] not resolvable: Not found
+
+## vault location 
+
+    secret/gs-vault-config/cloud (higher priority)
+    secret/gs-valut-config
+    secret/application/cloud
+    secret/application (lower priority)
