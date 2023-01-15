@@ -4,6 +4,9 @@ option java_package = "com.example.tutorial";
 option java_outer_classname = "OuterSample";
 option java_multiple_files = true;
 
+message MsgList{
+    repeated Msg msg = 1;
+}
 
 message Msg {
     string foo = 1;
@@ -13,3 +16,4 @@ message Msg {
 message SecondMsg {
     int32 blah = 1;
 }
+
