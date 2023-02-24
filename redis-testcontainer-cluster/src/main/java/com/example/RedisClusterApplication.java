@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TestcontainerRedisClusterApplication {
+public class RedisClusterApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(TestcontainerRedisClusterApplication.class, args);
+    SpringApplication.run(RedisClusterApplication.class, args);
   }
 
 }
