@@ -1,8 +1,12 @@
 package hello;
 
+import org.reactivestreams.Publisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
+import org.springframework.data.redis.core.ReactiveRedisCallback;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -20,8 +24,15 @@ public class CoffeeConfiguration {
         RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
 
     RedisSerializationContext<String, Coffee> context = builder.value(serializer).build();
+    ReactiveRedisTemplate<String, Coffee> template = new ReactiveRedisTemplate<>(factory, context);
+    template.execute(new ReactiveRedisCallback<Object>() {
+      @Override
+      public Publisher<Object> doInRedis(ReactiveRedisConnection connection) throws DataAccessException {
 
-    return new ReactiveRedisTemplate<>(factory, context);
+        return null;
+      }
+    })
+    return template;
   }
 
 }
