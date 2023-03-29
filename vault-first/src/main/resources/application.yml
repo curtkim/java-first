@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: gs-vault-config
+
+example:
+  username: foo
+  password: bar
+
+---
+spring:
+  config:
+    activate:
+      on-profile: alpha
+    import: vault://
+
+  cloud.vault:
+    token: 00000000-0000-0000-0000-000000000000
+    scheme: http
+    kv:
+      enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cloud
+    import: vault://
+
+  cloud.vault:
+    token: 00000000-0000-0000-0000-000000000000
+    scheme: http
+    kv:
+      enabled: true
