@@ -1,3 +1,6 @@
+## 개요
+ConfigurationProperties 없이도 Vault를 사용할 수 있다. 
+
 ## vault
 
     export export VAULT_TOKEN="00000000-0000-0000-0000-000000000000"
@@ -10,3 +13,4 @@
     
     ./gradlew bootRun
     SPRING_PROFILES_ACTIVE=cloud ./gradlew bootRun
+

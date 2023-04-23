@@ -35,6 +35,7 @@ public class VaultCloudFirstApplication implements CommandLineRunner {
     logger.info("Configuration properties");
     logger.info("   example.username is {}", getUsername());
     logger.info("   example.password is {}", password);
+    logger.info("   example.temp is {}", env.getProperty("temp"));
     logger.info("----------------------------------------");
   }
 }
