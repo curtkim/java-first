@@ -16,10 +16,11 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.apache.commons:commons-pool2:2.11.1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation "com.redis.testcontainers:testcontainers-redis-junit:1.6.2"
+    testImplementation "com.redis.testcontainers:testcontainers-redis-junit:1.6.4"
 }
 
 
