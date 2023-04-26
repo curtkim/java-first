@@ -44,4 +44,5 @@ public class RedisClusterTest {
   public void test2() {
     assertEquals("1", redisTemplate.opsForValue().get("a"));
   }
+
 }
