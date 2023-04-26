@@ -1,8 +1,10 @@
+package object;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-class Person implements Serializable {
+public class Person implements Serializable {
   private String name = "John Doe";
   private int age = 18;
   private Date birthDate = new Date(933191282821L);

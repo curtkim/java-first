@@ -2,6 +2,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import object.Person;
 
 import java.util.Date;
 
@@ -20,5 +21,5 @@ public class PersonSerializer extends Serializer<Person> {
     return new Person(name, new Date(birthDate));
   }
 
-  //public Person copy(Kryo kryo, Person original) { }
+  //public object.Person copy(Kryo kryo, object.Person original) { }
 }

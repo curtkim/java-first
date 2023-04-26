@@ -1,6 +1,7 @@
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import object.Person;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
