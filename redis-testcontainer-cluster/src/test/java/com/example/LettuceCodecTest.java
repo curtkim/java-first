@@ -2,14 +2,11 @@ package com.example;
 
 import com.redis.testcontainers.RedisClusterContainer;
 import io.lettuce.core.RedisURI;
-import io.lettuce.core.TransactionResult;
-import io.lettuce.core.api.sync.RedisCommands;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.cluster.RedisClusterClient;
-import io.lettuce.core.cluster.SlotHash;
 import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
-import io.lettuce.core.cluster.models.partitions.RedisClusterNode;
+import io.lettuce.core.cluster.api.sync.RedisAdvancedClusterCommands;
 import io.lettuce.core.support.ConnectionPoolSupport;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -19,12 +16,16 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @Testcontainers
-public class LettuceClusterTransactionTest {
+public class LettuceCodecTest {
 
   @Container
   static RedisClusterContainer REDIS_CLUSTER = new RedisClusterContainer(
@@ -46,32 +47,23 @@ public class LettuceClusterTransactionTest {
         .topologyRefreshOptions(topologyRefreshOptions)
         .build());
 
-    GenericObjectPool<StatefulRedisClusterConnection<String, String>> pool = ConnectionPoolSupport.createGenericObjectPool(
-        () -> clusterClient.connect(),
+    GenericObjectPool<StatefulRedisClusterConnection<String, Object>> pool = ConnectionPoolSupport.createGenericObjectPool(
+        () -> clusterClient.connect(new SerializedObjectCodec()),
         new GenericObjectPoolConfig()
     );
 
-    // https://groups.google.com/g/lettuce-redis-client-users/c/llH4sfkUj8k
-    String key = "{user101}/drive";
-    String key2 = "{user101}/path";
+    try (StatefulRedisClusterConnection<String, Object> connection = pool.borrowObject()) {
+      RedisAdvancedClusterCommands<String, Object> commands = connection.sync();
+      commands.set("key1", new Date(1000));
+    }
 
-    try (StatefulRedisClusterConnection<String, String> connection = pool.borrowObject()) {
-      RedisClusterNode node = connection.getPartitions().getPartitionBySlot(SlotHash.getSlot(key));
-      System.out.println(node);
-      RedisCommands<String, String> commands = connection.getConnection(node.getNodeId()).sync();
-      {
-        commands.multi();
-        commands.set(key, "1");
-        commands.set(key2, "2");
-        TransactionResult result = commands.exec();
-
-        System.out.println(result);
-        result.stream().forEach(it -> System.out.println(it));
-      }
+    try (StatefulRedisClusterConnection<String, Object> connection = pool.borrowObject()) {
+      RedisAdvancedClusterCommands<String, Object> commands = connection.sync();
+      Date obj = (Date)commands.get("key1");
+      assertEquals(new Date(1000), obj);
     }
 
     pool.close();
     clusterClient.shutdown();
   }
-
 }
