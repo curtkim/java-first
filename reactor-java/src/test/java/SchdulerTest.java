@@ -12,7 +12,7 @@ public class SchdulerTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return val*2;
+        return val;
     }
 
     @Test
@@ -22,13 +22,12 @@ public class SchdulerTest {
         Scheduler myPara = Schedulers.newParallel("myPara", 10);
 
         Flux.interval(Duration.ofMillis(100))
-            .take(10)
+            .take(20)
+            //.flatMap(v -> Flux.just(v).publishOn(myPara).map(SchdulerTest::calculateLong))
                 .map(v -> Flux.just(v).publishOn(myPara).map(SchdulerTest::calculateLong))
                 .flatMap(v -> v)
             .doOnNext(v -> System.out.println(String.format("%d %d %s", v, System.currentTimeMillis()- startTime, Thread.currentThread().getName())))
             .doOnComplete(()-> System.out.println("done"))
-            .subscribe();
-
-        Thread.currentThread().sleep(10000);
+            .blockLast();
     }
 }
