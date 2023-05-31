@@ -18,7 +18,7 @@ import java.util.Map;
 public class VaultFirstApplication implements CommandLineRunner {
 
   public static void main(String[] args) {
-    SpringApplication.run(VaultFirstApplication.class, args);
+    SpringApplication.run(VaultFirstApplication.class, args).close();
   }
 
   @Autowired
