@@ -1,7 +1,7 @@
 ## 개요
 spring.config.import: vault://mydb?prefix=mydb., vault://s3?prefix=s3.
 
-아직실패
+아직 실패
 
 ## reference
 https://docs.spring.io/spring-cloud-vault/docs/current/reference/html/config-data.html
@@ -15,3 +15,5 @@ https://docs.spring.io/spring-cloud-vault/docs/current/reference/html/config-dat
     vault kv put secret/thrid/s3            accesskey=a secretkey=b
 
 
+## actuator 
+http://localhost:8080/actuator/env

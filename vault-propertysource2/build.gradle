@@ -20,8 +20,9 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation 'org.springframework.vault:spring-vault-core:2.2.3.RELEASE'
-    implementation 'org.springframework.vault:spring-vault-dependencies:2.2.3.RELEASE'
+    //implementation 'org.springframework.vault:spring-vault-dependencies:2.2.3.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

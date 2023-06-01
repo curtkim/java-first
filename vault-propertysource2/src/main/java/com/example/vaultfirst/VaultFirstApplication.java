@@ -23,8 +23,8 @@ public class VaultFirstApplication implements CommandLineRunner {
     new SpringApplicationBuilder()
         .sources(VaultFirstApplication.class)
         .initializers(new VaultPropertyLoader())
-        .run(args)
-        .close();
+        .run(args);
+        //.close();
     //configureApplication(new SpringApplicationBuilder()).run(args);
     //SpringApplication.run(VaultFirstApplication.class, args).close();
   }
