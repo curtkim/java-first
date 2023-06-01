@@ -1,0 +1,1 @@
+java -cp build/libs/lang.jar org.example.MultilineString 
