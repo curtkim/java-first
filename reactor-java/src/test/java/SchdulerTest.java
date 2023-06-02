@@ -15,7 +15,7 @@ public class SchdulerTest {
         return val;
     }
 
-    @Test
+    @Test(timeout = 3000)
     public void test() throws InterruptedException {
         long startTime = System.currentTimeMillis();
 
@@ -23,9 +23,7 @@ public class SchdulerTest {
 
         Flux.interval(Duration.ofMillis(100))
             .take(20)
-            //.flatMap(v -> Flux.just(v).publishOn(myPara).map(SchdulerTest::calculateLong))
-                .map(v -> Flux.just(v).publishOn(myPara).map(SchdulerTest::calculateLong))
-                .flatMap(v -> v)
+            .flatMap(v -> Flux.just(v).publishOn(myPara).map(SchdulerTest::calculateLong))
             .doOnNext(v -> System.out.println(String.format("%d %d %s", v, System.currentTimeMillis()- startTime, Thread.currentThread().getName())))
             .doOnComplete(()-> System.out.println("done"))
             .blockLast();
