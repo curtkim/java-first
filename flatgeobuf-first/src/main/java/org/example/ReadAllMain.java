@@ -6,11 +6,10 @@ import org.wololo.flatgeobuf.generated.Feature;
 import org.wololo.flatgeobuf.generated.Geometry;
 import org.wololo.flatgeobuf.generated.GeometryType;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -18,11 +17,14 @@ import java.util.zip.GZIPInputStream;
 
 public class ReadAllMain {
   public static void main(String[] args) throws IOException {
+    long startTime = System.currentTimeMillis();
 
     //File file = new File("countries.fgb");
     //File file = new File(System.getProperty("user.home")+ "/Documents/rn_link_l.fgb");
-    //InputStream is = new FileInputStream(file);
-    InputStream is = new GZIPInputStream(new FileInputStream(System.getProperty("user.home") + "/Documents/rn_link_l.fgb.gz"));
+//    File file = new File(System.getProperty("user.home")+ "/Documents/rn_link_l.fgb");
+//    InputStream is = new BufferedInputStream(new FileInputStream(file), 1024 * 1024);         // 11초
+    File gzFile = new File(System.getProperty("user.home") + "/Documents/rn_link_l.fgb.gz");
+    InputStream is = new BufferedInputStream(new GZIPInputStream(new FileInputStream(gzFile)), 1024 * 1024);  // 13초
 
     HeaderMeta headerMeta = HeaderMeta.read(is);
     {
@@ -34,7 +36,7 @@ public class ReadAllMain {
     }
 
     long treeSize = PackedRTree.calcSize((int) headerMeta.featuresCount, headerMeta.indexNodeSize);
-    System.out.println("size: " + treeSize);
+    System.out.println("treeSize: " + treeSize);
 
     LittleEndianDataInputStream data = new LittleEndianDataInputStream(is);
     skipNBytes(data, treeSize);
@@ -50,10 +52,11 @@ public class ReadAllMain {
       SimpleFeature sf = new SimpleFeature();
       fillGeometry(headerMeta, feature, sf);
       fillAttributes(headerMeta, feature, sf);
-      //results.add(sf);
+      results.add(sf);
       //System.out.println(sf.properties);
     }
     System.out.println("results.size(): " + results.size());
+    System.out.println("elapsed time " + (System.currentTimeMillis() - startTime) + "ms");
   }
 
   private static void fillGeometry(HeaderMeta headerMeta, Feature feature, SimpleFeature sf) {
