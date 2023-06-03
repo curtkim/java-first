@@ -31,13 +31,7 @@ public class ReadAllMain {
     */
 
     HeaderMeta headerMeta = HeaderMeta.read(is);
-    {
-      System.out.println("headerMeta.offset: " + headerMeta.offset);
-      System.out.println("headerMeta.featuresCount: " + headerMeta.featuresCount);
-      for (ColumnMeta column : headerMeta.columns)
-        System.out.println(String.format("\t%s type=%s width=%d scale=%d precision=%d", column.name, ColumnType.names[column.type], column.width, column.scale, column.precision));
-      System.out.println(headerMeta.envelope);
-    }
+    printMeta(headerMeta);
 
     long treeSize = PackedRTree.calcSize((int) headerMeta.featuresCount, headerMeta.indexNodeSize);
     System.out.println("treeSize: " + treeSize);
@@ -112,5 +106,14 @@ public class ReadAllMain {
     while (actual < remaining) {
       remaining -= stream.skip(remaining);
     }
+  }
+
+  public static void printMeta(HeaderMeta headerMeta){
+    System.out.println("headerMeta.offset: " + headerMeta.offset);
+    System.out.println("headerMeta.featuresCount: " + headerMeta.featuresCount);
+    System.out.println("headerMeta.indexNodeSize: " + headerMeta.indexNodeSize);
+    for (ColumnMeta column : headerMeta.columns)
+      System.out.println(String.format("\t%s type=%s width=%d scale=%d precision=%d", column.name, ColumnType.names[column.type], column.width, column.scale, column.precision));
+    System.out.println(headerMeta.envelope);
   }
 }

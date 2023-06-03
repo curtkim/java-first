@@ -17,45 +17,29 @@ import java.util.List;
 public class SearchByRect {
 
   public static void main(String[] args) throws IOException {
-
     File file = new File("countries.fgb");
     byte[] bytes = Files.readAllBytes(file.toPath());
     ByteBuffer bb = ByteBuffer.wrap(bytes);
     bb.order(ByteOrder.LITTLE_ENDIAN);
+    System.out.println("bytes.length: " + bytes.length);
 
     HeaderMeta headerMeta = HeaderMeta.read(bb);
-    {
-      System.out.println("file size: " + bytes.length);
-      System.out.println("headerMeta.offset: " + headerMeta.offset);
-      System.out.println("headerMeta.featuresCount: " + headerMeta.featuresCount);
-      for (ColumnMeta column : headerMeta.columns)
-        System.out.println(String.format("\t%s type=%s width=%d scale=%d precision=%d", column.name, ColumnType.names[column.type], column.width, column.scale, column.precision));
-      System.out.println(headerMeta.envelope);
-    }
+    ReadAllMain.printMeta(headerMeta);
 
     int treeSize = (int)PackedRTree.calcSize((int) headerMeta.featuresCount, headerMeta.indexNodeSize);
     System.out.println("treeSize: " + treeSize);
+    System.out.println("tree node count: " + (treeSize / (8 * 4 + 8)));
 
-    /*
-    System.out.println(bb.position());
-    System.out.println(headerMeta.offset);
-    ByteBuffer treeBuffer = ByteBuffer.wrap(bytes, headerMeta.offset, treeSize);
-    */
-    /*
-    byte[] treeBytes = new byte[treeSize];
-    bb.get(treeBytes, 0, treeSize);
-    InputStream stream = new ByteArrayInputStream(treeBytes);
-    */
 
     //serach( byteBuffer, start, numItems, nodeSize, env)
-    Envelope env = new Envelope(127, 128, 36, 37);
-    List<PackedRTree.SearchHit> results = PackedRTree.search(bb, headerMeta.offset, (int) headerMeta.featuresCount, headerMeta.indexNodeSize, env);
+    Envelope koreaEnv = new Envelope(127, 128, 36, 37);
+    List<PackedRTree.SearchHit> results = PackedRTree.search(bb, headerMeta.offset, (int) headerMeta.featuresCount, headerMeta.indexNodeSize, koreaEnv);
 
     int featuresOffset = headerMeta.offset + treeSize;
-    System.out.println("hit");
 
     Feature feature = new Feature();
     for(PackedRTree.SearchHit hit : results) {
+      System.out.println("===================================");
       System.out.println(String.format("offset=%d index=%d", hit.offset, hit.index));
 
       bb.position(featuresOffset + (int)hit.offset);
