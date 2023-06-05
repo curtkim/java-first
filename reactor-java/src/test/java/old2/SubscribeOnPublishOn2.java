@@ -17,7 +17,7 @@ public class SubscribeOnPublishOn2 {
     Flux<Integer> flux3 = Flux.range(0, 2)
         // this is influenced by subscribeOn
         .doOnNext(s -> System.out.println(s + " before publishOn using thread: " + Thread.currentThread().getName()))
-        .publishOn(Schedulers.elastic())
+        .publishOn(Schedulers.boundedElastic())
         // the rest is influenced by publishOn
         .doOnNext(s -> System.out.println(s + " after publishOn using thread: " + Thread.currentThread().getName()))
         .subscribeOn(Schedulers.single());

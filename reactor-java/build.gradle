@@ -24,8 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.projectreactor:reactor-core:3.2.6.RELEASE'
-    //implementation 'io.projectreactor.addons:reactor-extra:3.2.6.RELEASE'
+    implementation 'io.projectreactor:reactor-core:3.5.6'
 
     implementation('org.springframework.boot:spring-boot-starter-webflux')
     implementation('org.springframework.boot:spring-boot-starter-data-redis-reactive:2.0.4.RELEASE')
@@ -38,5 +37,5 @@ dependencies {
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.10.0'
-    testImplementation 'io.projectreactor:reactor-test:3.1.4.RELEASE'
+    testImplementation 'io.projectreactor:reactor-test:3.5.6'
 }

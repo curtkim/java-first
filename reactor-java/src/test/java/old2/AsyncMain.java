@@ -17,7 +17,7 @@ public class AsyncMain {
     Flux.just(1,3,5,7,9)
         .flatMap(it -> {
           System.out.println(it + " " + Thread.currentThread().getName());
-          return Mono.fromCallable(new MyCallable()).publishOn(Schedulers.elastic());
+          return Mono.fromCallable(new MyCallable()).publishOn(Schedulers.boundedElastic());
         })
         .publishOn(single)
         .subscribe(

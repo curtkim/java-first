@@ -29,7 +29,7 @@ public class EachLimit {
                                   System.out.println(Thread.currentThread().getName() + " " + it);
                                   return it * 2;
                                 })
-                            .publishOn(Schedulers.elastic()),
+                            .publishOn(Schedulers.boundedElastic()),
                     concurrent))
         .expectSubscription()
         .expectNext(0, 2, 4, 6, 8, 10, 12, 14, 16, 18)

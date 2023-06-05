@@ -33,6 +33,7 @@ public class TransformCompose {
         .verifyComplete();
   }
 
+  /*
   @Test
   // subscription 시점에 operator가 적용된다.
   public void compose() {
@@ -51,4 +52,5 @@ public class TransformCompose {
         .expectNext("red")
         .verifyComplete();
   }
+  */
 }

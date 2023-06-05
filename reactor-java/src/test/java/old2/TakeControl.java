@@ -54,7 +54,7 @@ public class TakeControl {
         map(n -> identityWithThreadLogging(n, "map1")).
         flatMap(n -> {
           if (n == 1) return createMonoOnScheduler(n, Schedulers.parallel());
-          if (n == 2) return createMonoOnScheduler(n, Schedulers.elastic());
+          if (n == 2) return createMonoOnScheduler(n, Schedulers.boundedElastic());
           if (n == 3) return createMonoOnScheduler(n, Schedulers.single());
           return Mono.error(new Exception("error")).subscribeOn(Schedulers.newSingle("error-thread"));
         }).
@@ -73,7 +73,7 @@ public class TakeControl {
 
   @Test
   public void runOnMethodCallOnParallelFluxMatters() {
-    Scheduler elastic = Schedulers.elastic();
+    Scheduler elastic = Schedulers.boundedElastic();
 
     // FIRST TEST : .runOn(parallel) after the sleeping map
     ParallelFlux<Integer> fluxAfter = Flux.range(1, 100).parallel()
@@ -116,7 +116,7 @@ public class TakeControl {
         .subscribeOn(Schedulers.parallel())
         .map(n -> identityWithThreadLogging(n, "map1"))
         .parallel()
-        .runOn(Schedulers.elastic())
+        .runOn(Schedulers.boundedElastic())
         .map(n  -> identityWithThreadLogging(n, "parallelFlux"))
         .sequential()
         .map(n -> identityWithThreadLogging(n, "map2"))

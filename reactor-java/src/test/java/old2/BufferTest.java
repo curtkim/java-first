@@ -72,5 +72,15 @@ public class BufferTest {
         .verify();
   }
 
+  @Test
+  public void bufferUntilChanged(){
+    StepVerifier.create(Flux.just(1, 1, 2, 3, 3).bufferUntilChanged())
+        .expectNext(Arrays.asList(1,1))
+        .expectNext(Arrays.asList(2))
+        .expectNext(Arrays.asList(3,3))
+        .expectComplete()
+        .verify();
+  }
+
 }
 
