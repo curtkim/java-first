@@ -42,6 +42,7 @@ public class SearchByRect {
       System.out.println("===================================");
       System.out.println(String.format("offset=%d index=%d", hit.offset, hit.index));
 
+      // position을 이동한다.
       bb.position(featuresOffset + (int)hit.offset);
       int featureSize = bb.getInt();
       System.out.println("featureSize: " + featureSize);
