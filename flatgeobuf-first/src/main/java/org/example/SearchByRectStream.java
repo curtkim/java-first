@@ -36,8 +36,8 @@ public class SearchByRectStream {
   // Tree
   // Feature
   public static void main(String[] args) throws IOException {
-    //File file = new File(System.getProperty("user.home")+ "/Documents/rn_link_l.fgb");
-    File file = new File("countries.fgb");
+    File file = new File(System.getProperty("user.home")+ "/Documents/rn_link_l.fgb");
+    //File file = new File("countries.fgb");
     FileChannel ch = new RandomAccessFile(file, "r").getChannel();
 
     HeaderMeta headerMeta = readMeta(ch);
@@ -50,12 +50,15 @@ public class SearchByRectStream {
 
     ByteBuffer treeBB = ByteBuffer.allocateDirect(treeSize);
     treeBB.order(ByteOrder.LITTLE_ENDIAN);
+    treeBB.mark();
     ch.read(treeBB);
+    treeBB.reset();
 
     //serach( byteBuffer, start, numItems, nodeSize, env)
-    Envelope koreaEnv = new Envelope(127, 128, 36, 37);
+    //Envelope koreaEnv = new Envelope(127, 128, 36, 37);
+    Envelope env = new Envelope(433200, 433600, 209700, 210200);
     // NOTE start를 0으로 준다.
-    List<PackedRTree.SearchHit> results = PackedRTree.search(treeBB, 0, (int) headerMeta.featuresCount, headerMeta.indexNodeSize, koreaEnv);
+    List<PackedRTree.SearchHit> results = PackedRTree.search(treeBB, 0, (int) headerMeta.featuresCount, headerMeta.indexNodeSize, env);
     System.out.println("results.size()=" + results.size());
 
     int featuresOffset = headerMeta.offset + treeSize;
