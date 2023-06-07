@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 import org.jgrapht.GraphType;
 import org.jgrapht.alg.util.Pair;
+import org.jgrapht.opt.graph.sparse.IncomingEdgesSupport;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedGraph;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,10 +21,10 @@ public class Ex03_SparseIntGraph {
     List<Pair<Integer, Integer>> edges = Arrays
         .asList(
             Pair.of(0, 1), Pair.of(1, 0), Pair.of(1, 4), Pair.of(1, 5), Pair.of(1, 6),
-            Pair.of(2, 4), Pair.of(2, 4), Pair.of(2, 4), Pair.of(3, 4), Pair.of(4, 5),
+            Pair.of(2, 4), Pair.of(3, 4), Pair.of(4, 5),
             Pair.of(5, 6), Pair.of(7, 6), Pair.of(7, 7));
 
-    SparseIntDirectedGraph g= new SparseIntDirectedGraph(vertexCount, edges);
+    SparseIntDirectedGraph g= new SparseIntDirectedGraph(vertexCount, edges.size(), ()->edges.stream(), IncomingEdgesSupport.NO_INCOMING_EDGES);
 
 
     assertEquals(vertexCount, g.vertexSet().size());
@@ -40,11 +41,7 @@ public class Ex03_SparseIntGraph {
       assertTrue(g.containsVertex(i));
     }
 
-    assertEquals(2, g.degreeOf(0));
-    assertEquals(1, g.inDegreeOf(0));
     assertEquals(1, g.outDegreeOf(0));
-    assertEquals(Set.of(0, 1), g.edgesOf(0));
-    assertEquals(Set.of(1), g.incomingEdgesOf(0));
     assertEquals(Set.of(0), g.outgoingEdgesOf(0));
     //
     assertEquals(0, g.getEdgeSource(0));
