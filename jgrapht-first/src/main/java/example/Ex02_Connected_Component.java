@@ -9,33 +9,39 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
 import java.util.List;
+import java.util.Set;
 
 public class Ex02_Connected_Component {
   public static void main(String[] args) {
     // constructs a directed graph with the specified vertices and edges
-    Graph<String, DefaultEdge> directedGraph = new DefaultDirectedGraph<>(DefaultEdge.class);
-    directedGraph.addVertex("a");
-    directedGraph.addVertex("b");
-    directedGraph.addVertex("c");
-    directedGraph.addVertex("d");
-    directedGraph.addVertex("e");
-    directedGraph.addVertex("f");
-    directedGraph.addVertex("g");
-    directedGraph.addVertex("h");
-    directedGraph.addVertex("i");
-    directedGraph.addEdge("a", "b");
-    directedGraph.addEdge("b", "d");
-    directedGraph.addEdge("d", "c");
-    directedGraph.addEdge("c", "a");
-    directedGraph.addEdge("e", "d");
-    directedGraph.addEdge("e", "f");
-    directedGraph.addEdge("f", "g");
-    directedGraph.addEdge("g", "e");
-    directedGraph.addEdge("h", "e");
-    directedGraph.addEdge("i", "h");
+    DefaultDirectedGraph<String, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
+    g.addVertex("a");
+    g.addVertex("b");
+    g.addVertex("c");
+    g.addVertex("d");
+    g.addVertex("e");
+    g.addVertex("f");
+    g.addVertex("g");
+    g.addVertex("h");
+    g.addVertex("i");
+    DefaultEdge e = g.addEdge("a", "b");
+    g.addEdge("b", "d");
+    g.addEdge("d", "c");
+    g.addEdge("c", "a");
+    g.addEdge("e", "d");
+    g.addEdge("e", "f");
+    g.addEdge("f", "g");
+    g.addEdge("g", "e");
+    g.addEdge("h", "e");
+    g.addEdge("i", "h");
 
-    stronglyConnectedSubgraphs(directedGraph);
-    shortestPath(directedGraph);
+    System.out.println(e.getClass().getName());
+    Set<DefaultEdge> edges = g.outgoingEdgesOf("a");
+    System.out.println(edges);
+
+
+    stronglyConnectedSubgraphs(g);
+    shortestPath(g);
   }
 
   static void shortestPath(Graph<String, DefaultEdge> directedGraph) {
