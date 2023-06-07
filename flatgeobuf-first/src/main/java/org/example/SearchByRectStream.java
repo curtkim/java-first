@@ -16,18 +16,20 @@ import java.util.List;
 public class SearchByRectStream {
 
   static HeaderMeta readMeta(FileChannel ch) throws IOException {
-    ByteBuffer buf = ByteBuffer.allocate(8+4);
+    final int MAGIC_BYTES_SIZE = 8;
+    final int TREE_SIZE_SIZE = 4;
+    ByteBuffer buf = ByteBuffer.allocate(MAGIC_BYTES_SIZE+TREE_SIZE_SIZE);
     buf.order(ByteOrder.LITTLE_ENDIAN);
     ch.read(buf);
-    buf.position(8);
+    // skip magic bytes
+    buf.position(MAGIC_BYTES_SIZE);
     int len = buf.getInt();
 
-    ByteBuffer bb = ByteBuffer.allocateDirect(8 + 4 + len);
+    ByteBuffer bb = ByteBuffer.allocateDirect(MAGIC_BYTES_SIZE + TREE_SIZE_SIZE + len);
     bb.order(ByteOrder.LITTLE_ENDIAN);
-    bb.mark();
     ch.position(0);
     ch.read(bb);
-    bb.reset();
+    bb.flip();
     return HeaderMeta.read(bb);
   }
 
@@ -50,13 +52,11 @@ public class SearchByRectStream {
 
     ByteBuffer treeBB = ByteBuffer.allocateDirect(treeSize);
     treeBB.order(ByteOrder.LITTLE_ENDIAN);
-    treeBB.mark();
     ch.read(treeBB);
-    treeBB.reset();
 
     //serach( byteBuffer, start, numItems, nodeSize, env)
     //Envelope koreaEnv = new Envelope(127, 128, 36, 37);
-    Envelope env = new Envelope(433200, 433600, 209700, 210200);
+    Envelope env = new Envelope(209700, 210200, 433200, 433600);
     // NOTE start를 0으로 준다.
     List<PackedRTree.SearchHit> results = PackedRTree.search(treeBB, 0, (int) headerMeta.featuresCount, headerMeta.indexNodeSize, env);
     System.out.println("results.size()=" + results.size());
@@ -64,6 +64,10 @@ public class SearchByRectStream {
     int featuresOffset = headerMeta.offset + treeSize;
 
     Feature feature = new Feature();
+    int MAX_FEATURE_SIZE = 1024 * 1024;
+    ByteBuffer featureBB = ByteBuffer.allocate(MAX_FEATURE_SIZE);   // 재활용된다.
+    featureBB.order(ByteOrder.LITTLE_ENDIAN);
+
     for(PackedRTree.SearchHit hit : results) {
       System.out.println("===================================");
       System.out.println(String.format("offset=%d index=%d", hit.offset, hit.index));
@@ -71,12 +75,20 @@ public class SearchByRectStream {
       // position을 이동한다.
       ch.position(featuresOffset + (int)hit.offset);
       int featureSize = readInt(ch);
+      if(featureSize > MAX_FEATURE_SIZE)
+        throw new RuntimeException("featureSize > MAX_FEATURE_SIZE");
+
+      /*
       System.out.println("featureSize: " + featureSize);
       ByteBuffer featureBB = ByteBuffer.allocate(featureSize);
       featureBB.order(ByteOrder.LITTLE_ENDIAN);
       featureBB.mark();
       ch.read(featureBB);
       featureBB.reset();
+      */
+      featureBB.clear();
+      ch.read(featureBB);
+      featureBB.flip();
 
       Feature.getRootAsFeature(featureBB, feature);
 
@@ -92,7 +104,8 @@ public class SearchByRectStream {
   }
 
   static int readInt(ReadableByteChannel ch){
-    ByteBuffer buf = ByteBuffer.allocate(4);
+    byte[] bytes = new byte[4];
+    ByteBuffer buf = ByteBuffer.wrap(bytes);
     buf.order(ByteOrder.LITTLE_ENDIAN);
     try {
       ch.read(buf);
