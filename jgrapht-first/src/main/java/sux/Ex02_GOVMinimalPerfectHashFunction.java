@@ -30,6 +30,7 @@ public class Ex02_GOVMinimalPerfectHashFunction {
         System.out.println(a + " " + fun.getLong(a));
     }
 
+    /*
     {
       Set<Long> set = new HashSet<>();
       for (int i = 0; i < 100; i++) {
@@ -46,5 +47,6 @@ public class Ex02_GOVMinimalPerfectHashFunction {
       for(long a : set)
         System.out.println(a + " " + fun.getLong(a));
     }
+    */
   }
 }

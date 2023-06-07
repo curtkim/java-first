@@ -18,6 +18,7 @@ public class Samples {
   public static int e = 5;
   public static int E = 6;
 
+  // E까지의 직선거리, Astar에서 휴리스틱으로 사용
   public static Map<Integer, Double> H = Map.of(
     S, 6.0,
     a, 4.0,
