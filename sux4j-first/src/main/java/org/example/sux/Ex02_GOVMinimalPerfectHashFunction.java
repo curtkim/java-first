@@ -1,25 +1,25 @@
-package sux;
+package org.example.sux;
 
-import it.unimi.dsi.bits.HuTuckerTransformationStrategy;
 import it.unimi.dsi.bits.TransformationStrategies;
-import it.unimi.dsi.sux4j.io.BucketedHashStore;
 import it.unimi.dsi.sux4j.mph.GOVMinimalPerfectHashFunction;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
+// origin_value -> idx(순차적이지는 않음)
 public class Ex02_GOVMinimalPerfectHashFunction {
 
   public static void main(String[] args) throws IOException {
-    {
-      List<Long> list = Arrays.asList(
-          974583489L,
-          937459233L,
-          827394728L,
-          765273615L
-      );
+    List<Long> list = Arrays.asList(
+        974583489L,
+        937459233L,
+        827394728L,
+        765273615L
+    );
 
+    {
       GOVMinimalPerfectHashFunction.Builder<Long> builder = new GOVMinimalPerfectHashFunction.Builder<>();
       GOVMinimalPerfectHashFunction<Long> fun = builder
           .keys(list)
@@ -30,6 +30,17 @@ public class Ex02_GOVMinimalPerfectHashFunction {
         System.out.println(a + " " + fun.getLong(a));
     }
 
+    {
+      List<Long> sorted = list.stream().sorted().collect(Collectors.toList());
+      GOVMinimalPerfectHashFunction.Builder<Long> builder = new GOVMinimalPerfectHashFunction.Builder<>();
+      GOVMinimalPerfectHashFunction<Long> fun = builder
+          .keys(sorted)
+          .transform(TransformationStrategies.fixedLong())
+          .build();
+
+      for (Long a : sorted)
+        System.out.println(a + " -> " + fun.getLong(a));
+    }
     /*
     {
       Set<Long> set = new HashSet<>();

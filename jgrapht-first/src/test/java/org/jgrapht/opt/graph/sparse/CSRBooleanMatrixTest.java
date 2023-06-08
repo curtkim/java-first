@@ -1,9 +1,10 @@
-package org.jgrapht.opt.graph.sparse.specifics;
+package org.jgrapht.opt.graph.sparse;
 
 import org.jgrapht.alg.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,8 +19,8 @@ public class CSRBooleanMatrixTest {
         new Pair<>(1, 2)
     ));
 
-    assertEquals(Set.of(1,2), m.nonZerosSet(0));
-    assertEquals(Set.of(2), m.nonZerosSet(1));
-    assertEquals(Set.of(), m.nonZerosSet(2));
+    assertEquals(new HashSet<>(Arrays.asList(1, 2)), m.nonZerosSet(0));
+    assertEquals(new HashSet<>(Arrays.asList(2)), m.nonZerosSet(1));
+    assertEquals(new HashSet<>(), m.nonZerosSet(2));
   }
 }

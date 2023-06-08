@@ -1,7 +1,7 @@
 package example;
 
 import org.jgrapht.alg.util.Triple;
-import org.jgrapht.opt.graph.sparse.IncomingEdgesSupport;
+//import org.jgrapht.opt.graph.sparse.IncomingEdgesSupport;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import java.util.Arrays;
@@ -19,15 +19,17 @@ public class Samples {
   public static int E = 6;
 
   // E까지의 직선거리, Astar에서 휴리스틱으로 사용
-  public static Map<Integer, Double> H = Map.of(
-    S, 6.0,
-    a, 4.0,
-    b, 2.0,
-    c, 4.0,
-    d, 4.5,
-    e, 2.0,
-    E, 0.0
-  );
+  public static Map<Integer, Double> H;
+  static {
+    H = new HashMap<>();
+    H.put(S, 6.0);
+    H.put(a, 4.0);
+    H.put(b, 2.0);
+    H.put(c, 4.0);
+    H.put(d, 4.5);
+    H.put(e, 2.0);
+    H.put(E, 0.0);
+  }
 
   public static SparseIntDirectedWeightedGraph getSample(){
 
@@ -48,10 +50,7 @@ public class Samples {
         Triple.of(e, d, 3.0),
         Triple.of(e, E, 2.0)
     );
-    SparseIntDirectedWeightedGraph g = new SparseIntDirectedWeightedGraph(vertexCount, edges.size(),
-        () -> edges.stream(),
-        IncomingEdgesSupport.NO_INCOMING_EDGES
-    );
+    SparseIntDirectedWeightedGraph g = new SparseIntDirectedWeightedGraph(vertexCount, edges);
     return g;
   }
 }

@@ -1,4 +1,4 @@
-package sux;
+package org.example.sux;
 
 import java.util.ArrayList;
 import java.util.HashSet;

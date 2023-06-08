@@ -1,10 +1,8 @@
-package sux;
+package org.example.sux;
 
 import it.unimi.dsi.bits.HuTuckerTransformationStrategy;
-import it.unimi.dsi.sux4j.io.BucketedHashStore;
 import it.unimi.dsi.sux4j.mph.GOVMinimalPerfectHashFunction;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

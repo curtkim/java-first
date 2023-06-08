@@ -32,11 +32,19 @@ public class Ex01 {
         .get();
     System.out.println(start);
 
+    /*
     System.out.println("depth first iterator");
     Iterator<URI> iterator = new DepthFirstIterator<>(g, start);
     while (iterator.hasNext()) {
       URI uri = iterator.next();
       System.out.println(uri);
     }
+    */
+
+    // 나가는 edge목록
+    System.out.println();
+    System.out.println(google + "의 outgoing vertex목록");
+    g.outgoingEdgesOf(google).stream().map(e -> g.getEdgeTarget(e)).forEach(System.out::println);
+
   }
 }
