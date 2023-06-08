@@ -7,13 +7,12 @@ import java.io.*;
 import java.util.List;
 
 // int idx -> long origin_value
-public class Ex03_EliasFanoMonotoneLongBigList {
+public class Ex13_EliasFanoMonotoneLongBigList {
   public static void main(String[] args) throws IOException, ClassNotFoundException {
     // Delta Encoding이랑 비슷한가?
     List<Long> list = Utils.makeRandomSortedList(100, 10_000_000_000L);
     int idx = 99;
 
-    File file = new File("nodeId.obj");
     {
       EliasFanoMonotoneLongBigList eList = new EliasFanoMonotoneLongBigList(new LongArrayList(list));
       System.out.println(String.format(
@@ -24,15 +23,11 @@ public class Ex03_EliasFanoMonotoneLongBigList {
       System.out.println(list.get(idx));
       System.out.println(eList.getLong(idx));
 
-      ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(file));
-      o.writeObject(eList);
-      o.close();
+      Utils.writeFile("nodeId.obj", eList);
     }
 
     {
-      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-      EliasFanoMonotoneLongBigList eList2 = (EliasFanoMonotoneLongBigList) ois.readObject();
-
+      EliasFanoMonotoneLongBigList eList2 = (EliasFanoMonotoneLongBigList) Utils.readFile("nodeId.obj");
       System.out.println(eList2.getLong(idx));
     }
   }

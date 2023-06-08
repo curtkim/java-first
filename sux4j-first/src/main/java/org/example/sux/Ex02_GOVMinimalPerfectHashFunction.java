@@ -26,6 +26,8 @@ public class Ex02_GOVMinimalPerfectHashFunction {
           .transform(TransformationStrategies.fixedLong())
           .build();
 
+      System.out.println("numBits=" + fun.numBits());
+      System.out.println("size64=" + fun.size64());
       for (Long a : list)
         System.out.println(a + " " + fun.getLong(a));
     }

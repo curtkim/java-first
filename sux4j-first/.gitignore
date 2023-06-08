@@ -40,4 +40,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-nodeId.obj
+*.obj

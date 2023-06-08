@@ -23,6 +23,8 @@ public class Ex01_GOVMinimalPerfectHashFunction {
         .transform(new HuTuckerTransformationStrategy(list, true))
         .build();
 
+    System.out.println("numBits=" + fun.numBits());
+
     for(String str : list)
       System.out.println(str + " " + fun.getLong(str));
   }
