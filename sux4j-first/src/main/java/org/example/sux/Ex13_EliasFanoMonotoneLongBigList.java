@@ -4,6 +4,8 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.sux4j.util.EliasFanoMonotoneLongBigList;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 // int idx -> long origin_value
