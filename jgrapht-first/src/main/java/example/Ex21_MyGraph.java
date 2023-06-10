@@ -5,6 +5,7 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.util.Triple;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Ex21_MyGraph {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException, ClassNotFoundException {
 
     MyGraph graph = new MyGraph(7, Arrays.asList(
         Triple.of(S, a, 1.5),
@@ -31,16 +32,36 @@ public class Ex21_MyGraph {
         Triple.of(e, E, 2.0)
     ));
 
-    DijkstraShortestPath<Integer, Integer> dijkstra = new DijkstraShortestPath(graph);
-    ShortestPathAlgorithm.SingleSourcePaths<Integer, Integer> result = dijkstra.getPaths(S);
-    assertEquals(Arrays.asList(S, d, e, E), result.getPath(E).getVertexList());
-    assertEquals(7.0, result.getWeight(E), 0.00001);
-
     // S의 인접 정점들 출력
     // graph.outgoingEdgesOf(S)는 edge의 Set을 반환한다. vertex를 구하기 위해서는 getEdgeTarget()을 사용한다.
     assertEquals(
         new HashSet(Arrays.asList(a, d)),
         graph.outgoingEdgesOf(S).stream().map(e -> graph.getEdgeTarget(e)).collect(Collectors.toSet())
     );
+
+    {
+      DijkstraShortestPath<Integer, Integer> dijkstra = new DijkstraShortestPath(graph);
+      ShortestPathAlgorithm.SingleSourcePaths<Integer, Integer> result = dijkstra.getPaths(S);
+      assertEquals(Arrays.asList(S, d, e, E), result.getPath(E).getVertexList());
+      assertEquals(7.0, result.getWeight(E), 0.00001);
+    }
+
+    String filename = "mygraph.obj";
+    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
+    oos.writeObject(graph);
+    oos.close();
+    // 595 bytes
+
+    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
+    MyGraph graph2 = (MyGraph) ois.readObject();
+    ois.close();
+
+    {
+      DijkstraShortestPath<Integer, Integer> dijkstra = new DijkstraShortestPath(graph2);
+      ShortestPathAlgorithm.SingleSourcePaths<Integer, Integer> result = dijkstra.getPaths(S);
+      assertEquals(Arrays.asList(S, d, e, E), result.getPath(E).getVertexList());
+      assertEquals(7.0, result.getWeight(E), 0.00001);
+    }
+
   }
 }

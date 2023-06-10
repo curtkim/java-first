@@ -7,10 +7,11 @@ import org.jgrapht.alg.util.Triple;
 import org.jgrapht.graph.AbstractGraph;
 import org.jgrapht.graph.DefaultGraphType;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class MyGraph extends AbstractGraph<Integer, Integer>{
+public class MyGraph extends AbstractGraph<Integer, Integer> implements Serializable {
 
   protected static final String UNMODIFIABLE = "this graph is unmodifiable";
   protected static final String NO_INCOMING = "this graph does not support incoming edges";
@@ -18,7 +19,7 @@ public class MyGraph extends AbstractGraph<Integer, Integer>{
 
   protected int[] source;
   protected int[] target;
-  protected CSRBooleanMatrix outIncidenceMatrix;
+  protected CSRMatrix outIncidenceMatrix;
   protected double[] weights;
 
   public MyGraph(int numVertices, List<Triple<Integer, Integer, Double>> edges){
@@ -39,7 +40,7 @@ public class MyGraph extends AbstractGraph<Integer, Integer>{
       eIndex++;
     }
 
-    outIncidenceMatrix = new CSRBooleanMatrix(numVertices, m, outgoing);
+    outIncidenceMatrix = new CSRMatrix(numVertices, m, outgoing);
   }
 
   @Override

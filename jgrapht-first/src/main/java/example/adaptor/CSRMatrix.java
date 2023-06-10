@@ -5,7 +5,7 @@ import org.jgrapht.alg.util.Pair;
 import java.io.Serializable;
 import java.util.*;
 
-public class CSRBooleanMatrix implements Serializable {
+public class CSRMatrix implements Serializable {
 
   private static final long serialVersionUID = -8639339411487665967L;
 
@@ -34,7 +34,7 @@ public class CSRBooleanMatrix implements Serializable {
    * @param columns the number of columns
    * @param entries the position of the entries of the matrix
    */
-  public CSRBooleanMatrix(int rows, int columns, List<Pair<Integer, Integer>> entries)
+  public CSRMatrix(int rows, int columns, List<Pair<Integer, Integer>> entries)
   {
     if (rows < 1) {
       throw new IllegalArgumentException("Rows must be positive");
@@ -116,7 +116,7 @@ public class CSRBooleanMatrix implements Serializable {
   {
     assert row >= 0 && row < rowOffsets.length;
 
-    return new CSRBooleanMatrix.NonZerosIterator(row);
+    return new CSRMatrix.NonZerosIterator(row);
   }
 
   /**
