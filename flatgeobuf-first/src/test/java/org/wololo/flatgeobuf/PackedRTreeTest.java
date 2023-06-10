@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,6 +80,13 @@ public class PackedRTreeTest {
     list.add(new PackedRTree.Pair<>(1, 4));
     list.add(new PackedRTree.Pair<>(0, 1));
     assertEquals(list, PackedRTree.generateLevelBounds(3, 16));
+  }
+
+  @Test
+  public void testGenerateLevelEnds() {
+    assertEquals(Arrays.asList(4,1), PackedRTree.generateLevelEnds(3, 16));
+    assertEquals(Arrays.asList(17,1), PackedRTree.generateLevelEnds(16, 16));
+    assertEquals(Arrays.asList(23,3,1), PackedRTree.generateLevelEnds(20, 16));
   }
 
   @Test
