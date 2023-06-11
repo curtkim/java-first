@@ -57,7 +57,7 @@ public class ReadAllMain {
     System.out.println("elapsed time " + (System.currentTimeMillis() - startTime) + "ms");
   }
 
-  static void fillGeometry(HeaderMeta headerMeta, Feature feature, SimpleFeature sf) {
+  public static void fillGeometry(HeaderMeta headerMeta, Feature feature, SimpleFeature sf) {
     Geometry geometry = feature.geometry();
     if (geometry != null) {
       byte geometryType = headerMeta.geometryType;
@@ -70,7 +70,7 @@ public class ReadAllMain {
     }
   }
 
-  static void fillAttributes(HeaderMeta headerMeta, Feature feature, SimpleFeature sf) {
+  public static void fillAttributes(HeaderMeta headerMeta, Feature feature, SimpleFeature sf) {
     int propertiesLength = feature.propertiesLength();
     if (propertiesLength > 0) {
       ByteBuffer pbb = feature.propertiesAsByteBuffer();

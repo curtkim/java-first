@@ -1,9 +1,12 @@
 package org.wololo.flatgeobuf;
 
 import org.example.ReadAllMain;
+import org.example.SimpleFeature;
 import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
 import org.wololo.flatgeobuf.HeaderMeta;
 import org.wololo.flatgeobuf.PackedRTree;
+import org.wololo.flatgeobuf.generated.Feature;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +43,41 @@ public class PackedRTreeMain {
     bb2.put(bytes, headerMeta.offset, bytes.length - headerMeta.offset);
     bb2.order(ByteOrder.LITTLE_ENDIAN);
     List<PackedRTree.SearchHit> results = search(bb2, 0, (int) headerMeta.featuresCount, headerMeta.indexNodeSize, koreaEnv);
+
+    SimpleFeature sf = getByIndex(49-13, headerMeta, bb);
+    System.out.println(sf.properties + " " + sf.geometry);
+
+    sf = getByIndex(50-13, headerMeta, bb);
+    System.out.println(sf.properties + " " + sf.geometry);
+
+    sf = getByIndex(0, headerMeta, bb);
+    System.out.println(sf.properties + " " + sf.geometry);
+
+    sf = getByIndex((int)headerMeta.featuresCount-1, headerMeta, bb);
+    System.out.println(sf.properties + " " + sf.geometry);
   }
 
+  public static SimpleFeature getByIndex(int index, HeaderMeta headerMeta, ByteBuffer buffer) {
+    final int NODE_ITEM_LEN = 8 * 4 + 8;
+    int treeSize = (int) PackedRTree.calcSize((int) headerMeta.featuresCount, headerMeta.indexNodeSize);
+
+    // tree에서 feature offset을 읽기
+    List<Integer> levelEnds = PackedRTree.generateLevelEnds((int)headerMeta.featuresCount, headerMeta.indexNodeSize);
+    int leafStart = levelEnds.get(1);
+    int treeOffset = headerMeta.offset + (leafStart + index) * NODE_ITEM_LEN;
+    buffer.position(treeOffset);
+    long featureOffset = buffer.getLong(treeOffset + 32);
+
+    System.out.println("featureOffset: " + featureOffset);
+    buffer.position(headerMeta.offset + treeSize + (int)featureOffset);
+    int featureSize = buffer.getInt();
+    Feature feature = Feature.getRootAsFeature(buffer);
+
+    SimpleFeature sf = new SimpleFeature();
+    ReadAllMain.fillGeometry(headerMeta, feature, sf);
+    ReadAllMain.fillAttributes(headerMeta, feature, sf);
+    return sf;
+  }
 
   static ArrayList<PackedRTree.SearchHit> search(ByteBuffer bb, int start, int numItems, int nodeSize, Envelope rect) {
     final int NODE_ITEM_LEN = 8 * 4 + 8;
