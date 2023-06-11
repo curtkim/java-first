@@ -51,7 +51,7 @@ public class ReadAllMain {
       fillGeometry(headerMeta, feature, sf);
       fillAttributes(headerMeta, feature, sf);
       results.add(sf);
-      System.out.println(sf.properties + " " + sf.geometry);
+      System.out.println(i + " " + sf.properties + " " + sf.geometry);
     }
     System.out.println("results.size(): " + results.size());
     System.out.println("elapsed time " + (System.currentTimeMillis() - startTime) + "ms");
