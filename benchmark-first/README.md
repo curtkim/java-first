@@ -23,12 +23,13 @@
     jmh {
         fork = 1
         warmupIterations = 1
-        iterations = 1
+        iterations = 10
+        timeOnIteration = '1s'  // Time to spend at each measurement iteration.
         warmup = '1s'
     }
     // 2개의 benchmark를 
-    // 1초 warmup, 10초 iteration으로 
-    // 총 22초 걸린다.
+    // 1초 warmup, 1초 10회 iteration으로 
+    // 총 22초 = 2*(1 + 10*1) = 걸린다.
 
 
     jmh {
@@ -40,7 +41,7 @@
     }
     // 2개의 benchmark를 
     // 2초 warmup 2번 , 2초 iteration 3번
-    // 총 40초 소요
+    // 총 40초 = 2*2*(2*2+3*2) 소요
 
 
 ## results log
