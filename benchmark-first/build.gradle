@@ -24,8 +24,8 @@ test {
 }
 
 jmh {
-
-    fork = 2
+    excludes = []   // 'example.SampleBenchmark.fibTailRec' 'example' 'Classic' 'Tail'
+    fork = 1
     warmupIterations = 1
     warmup = '1s'
     iterations = 3

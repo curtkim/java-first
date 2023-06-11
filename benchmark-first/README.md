@@ -1,6 +1,8 @@
 ## howto
 
     ./gradlew jmh
+    ./gradlew jmhJar
+    java -jar build/libs/benchmark-first-1.0-SNAPSHOT-jmh.jar -e Tail -f 1 -wi 1 -w 1s -i 3 -r 2s
 
 
 ## 설정
