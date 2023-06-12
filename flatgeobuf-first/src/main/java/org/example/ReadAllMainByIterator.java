@@ -20,6 +20,7 @@ public class ReadAllMainByIterator {
   public static void main(String[] args) throws IOException {
     long startTime = System.currentTimeMillis();
 
+    //File file = new File(System.getProperty("user.home")+ "/Documents/rn_link_l.fgb"); // 6초 소요
     File file = new File("countries.fgb");
     FileChannel ch = new RandomAccessFile(file, "r").getChannel();
     System.out.println("file size: " + ch.size());
@@ -39,7 +40,7 @@ public class ReadAllMainByIterator {
     Iterator<SimpleFeature> iter = new FlatgeobufIterator(headerMeta, featureBuffer);
     while (iter.hasNext()){
       SimpleFeature sf = iter.next();
-      System.out.println(sf.properties + " " + sf.geometry);
+      //System.out.println(sf.properties + " " + sf.geometry);
     }
     System.out.println("elapsed time " + (System.currentTimeMillis() - startTime) + "ms");
   }
