@@ -1,0 +1,100 @@
+version: '3.7'
+services:
+  node01:
+    image: redis:6.2.10
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    ports:
+      - "10001:6379"
+
+  node02:
+    image: redis:6.2.10
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    ports:
+      - "10002:6379"
+    networks:
+      redis_cluster:
+        ipv4_address: 173.20.0.3
+
+  node03:
+    image: redis:6.2.10
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    ports:
+      - "10003:6379"
+    networks:
+      redis_cluster:
+        ipv4_address: 173.20.0.4
+
+  node04:
+    image: redis:6.2.10
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    ports:
+      - "10004:6379"
+    networks:
+      redis_cluster:
+        ipv4_address: 173.20.0.5
+
+  node05:
+    image: redis:6.2.10
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    ports:
+      - "10005:6379"
+    networks:
+      redis_cluster:
+        ipv4_address: 173.20.0.6
+
+  node06:
+    image: redis:6.2.10
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    ports:
+      - "10006:6379"
+    networks:
+      redis_cluster:
+        ipv4_address: 173.20.0.7
+
+  redis_cluster:
+    image: redis:7-alpine
+    command: redis-cli --cluster create 173.20.0.2:6379 173.20.0.3:6379 173.20.0.4:6379 173.20.0.5:6379 173.20.0.6:6379 173.20.0.7:6379 --cluster-yes --cluster-replicas 1
+    depends_on:
+      - node01
+      - node02
+      - node03
+      - node04
+      - node05
+      - node06
+    networks:
+      redis_cluster:
+        ipv4_address: 173.20.0.8
+
+networks:
+  redis_cluster:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.20.0.0/24
+          gateway: 173.20.0.1
+
