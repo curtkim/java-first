@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+  node01:
+    image: redis
+    restart: always
+    volumes:
+      - ./redis_7001.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    expose:
+      - "7001"
+      - "17001"  
+    network_mode: "host"
+
+  node02:
+    image: redis
+    restart: always
+    volumes:
+      - ./redis_7002.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    expose:
+      - "7002"
+      - "17002"  
+    network_mode: "host"
+
+  node03:
+    image: redis
+    restart: always
+    volumes:
+      - ./redis_7003.conf:/etc/redis/redis.conf
+    command:
+      redis-server /etc/redis/redis.conf
+    expose:
+      - "7003"
+      - "17003"  
+    network_mode: "host"
+
+  redis_cluster:
+    image: redis
+    command: redis-cli --cluster create 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003
+    depends_on:
+      - node01
+      - node02
+      - node03
+    network_mode: "host"
+
