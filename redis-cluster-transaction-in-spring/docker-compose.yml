@@ -1,0 +1,8 @@
+version: '3'
+services:
+  redis-cluster:
+    image: grokzen/redis-cluster:6.2.1
+    environment:
+      IP: '0.0.0.0'             # https://github.com/Grokzen/docker-redis-cluster#important-for-mac-users
+    ports:
+      - '7000-7005:7000-7005'   # The cluster is 6 redis instances running with 3 master & 3 slaves, one slave for each master. They run on ports 7000 to 7005.
