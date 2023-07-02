@@ -14,29 +14,19 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class LockService {
+public class MyService {
 
   @Autowired
-  @Qualifier("cas")
+  @Qualifier("unpack")
   private RedisScript<Boolean> script;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
 
-  public Boolean acquire(String id){
-    return this.redisTemplate.execute(script, Arrays.asList(id), "READY", "WORKING");
-  }
-
-  public List<Object> doit(String id, String value){
-    return this.redisTemplate.execute(new SessionCallback<List<Object>>() {
-      @Override
-      public List<Object> execute(RedisOperations operations) throws DataAccessException {
-        operations.multi();
-        //Boolean result = (Boolean)operations.execute(script, Arrays.asList(id), "READY", "WORKING");
-        //System.out.println(result);
-        operations.opsForValue().set(id, value);
-        return operations.exec();
-      }
-    });
+  public boolean doit(String id1, String value1, String id2, List<String> list){
+    List<Object> argv = new ArrayList<>();
+    argv.add(value1);
+    argv.addAll(list);
+    return this.redisTemplate.execute(script, Arrays.asList(id1, id2), argv.toArray());
   }
 }

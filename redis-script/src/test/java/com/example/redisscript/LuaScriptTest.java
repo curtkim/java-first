@@ -1,4 +1,5 @@
 package com.example.redisscript;
+
 import com.github.dockerjava.zerodep.shaded.org.apache.commons.codec.binary.Hex;
 import io.lettuce.core.ScriptOutputType;
 import org.junit.jupiter.api.Test;
@@ -12,13 +13,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LuaScriptTest extends BaseSetupAndTeardownRedis {
 
+  // EX seconds -- Set the specified expire time, in seconds.
   public static final String SAMPLE_LUA_SCRIPT = "return redis.call('set',KEYS[1],ARGV[1],'ex',ARGV[2])";
 
   @Test
   public void executeLuaScript() {
     String script = SAMPLE_LUA_SCRIPT;
 
-    StepVerifier.create(redisReactiveCommands.eval(script, ScriptOutputType.BOOLEAN,
+    StepVerifier.create(
+            redisReactiveCommands.eval(
+                script, ScriptOutputType.BOOLEAN,
                 // keys as an array
                 Arrays.asList("foo1").toArray(new String[0]),
                 // other arguments

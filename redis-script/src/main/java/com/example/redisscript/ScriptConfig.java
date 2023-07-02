@@ -1,5 +1,6 @@
 package com.example.redisscript;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -15,8 +16,16 @@ public class ScriptConfig {
   }
 
   @Bean
+  @Qualifier("cas")
   public RedisScript<Boolean> casScript() {
     Resource scriptSource = new ClassPathResource("scripts/compare_swap.lua");
+    return RedisScript.of(scriptSource, Boolean.class);
+  }
+
+  @Bean
+  @Qualifier("unpack")
+  public RedisScript<Boolean> unpackScript() {
+    Resource scriptSource = new ClassPathResource("scripts/set_and_rpush.lua");
     return RedisScript.of(scriptSource, Boolean.class);
   }
 }
