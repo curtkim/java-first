@@ -23,6 +23,8 @@ dependencies {
     implementation 'io.lettuce:lettuce-core:6.2.4.RELEASE'
     implementation 'org.apache.commons:commons-pool2:2.11.1'
 
+    implementation 'io.projectreactor:reactor-core:3.5.7'
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
