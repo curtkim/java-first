@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,5 +98,4 @@ public class LettuceTemplateClusterTest {
       }
     });
   }
-
 }
