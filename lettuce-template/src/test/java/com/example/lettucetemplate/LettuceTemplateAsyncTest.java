@@ -1,11 +1,14 @@
 package com.example.lettucetemplate;
 
+import com.example.lettucetemplate.data.LettuceAsyncCallback;
 import com.example.lettucetemplate.data.LettuceCallback;
 import com.example.lettucetemplate.data.LettuceTemplate;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulConnection;
-import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.async.RedisKeyAsyncCommands;
+import io.lettuce.core.api.async.RedisListAsyncCommands;
+import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import io.lettuce.core.api.sync.RedisKeyCommands;
 import io.lettuce.core.api.sync.RedisListCommands;
 import io.lettuce.core.api.sync.RedisStringCommands;
@@ -18,10 +21,12 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.concurrent.ExecutionException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
-public class LettuceTemplateTest {
+public class LettuceTemplateAsyncTest {
   @Container
   static GenericContainer redis = new GenericContainer(DockerImageName.parse("redis:7.0.8-alpine"))
       .withExposedPorts(6379);
@@ -34,22 +39,28 @@ public class LettuceTemplateTest {
         .createGenericObjectPool(() -> client.connect(), new GenericObjectPoolConfig());
     LettuceTemplate<String, String> lettuceTemplate = new LettuceTemplate<>(pool);
 
-    lettuceTemplate.execute(new LettuceCallback<>() {
+    lettuceTemplate.executeAsync(new LettuceAsyncCallback<>() {
       @Override
-      public <Object> Object execute(RedisStringCommands<String, String> stringCommands,
-                            RedisListCommands<String, String> listCommands,
-                            RedisKeyCommands<String, String> keyCommands) {
+      public <Object> Object execute(RedisStringAsyncCommands<String, String> stringCommands,
+                                     RedisListAsyncCommands<String, String> listCommands,
+                                     RedisKeyAsyncCommands<String, String> keyCommands) {
         stringCommands.set("a", "1");
         return null;
       }
     });
 
-    lettuceTemplate.execute(new LettuceCallback<>() {
+    lettuceTemplate.executeAsync(new LettuceAsyncCallback<>() {
       @Override
-      public <Object> Object execute(RedisStringCommands<String, String> stringCommands,
-                                     RedisListCommands<String, String> listCommands,
-                                     RedisKeyCommands<String, String> keyCommands) {
-        assertEquals("1", stringCommands.get("a"));
+      public <Object> Object execute(RedisStringAsyncCommands<String, String> stringCommands,
+                                     RedisListAsyncCommands<String, String> listCommands,
+                                     RedisKeyAsyncCommands<String, String> keyCommands) {
+        try {
+          assertEquals("1", stringCommands.get("a").get());
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+          throw new RuntimeException(e);
+        }
         return null;
       }
     });
