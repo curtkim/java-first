@@ -4,6 +4,7 @@ import com.example.lettucetemplate.data.LettuceAsyncCallback;
 import com.example.lettucetemplate.data.LettuceCallback;
 import com.example.lettucetemplate.data.LettuceTemplate;
 import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisFuture;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.api.async.RedisKeyAsyncCommands;
@@ -22,6 +23,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,7 +47,9 @@ public class LettuceTemplateAsyncTest {
       public Object execute(RedisStringAsyncCommands<String, String> stringCommands,
                                      RedisListAsyncCommands<String, String> listCommands,
                                      RedisKeyAsyncCommands<String, String> keyCommands) {
-        stringCommands.set("a", "1");
+        RedisFuture<String> a = stringCommands.set("a", "1");
+        RedisFuture<String> b = stringCommands.set("b", "2");
+
         return null;
       }
     });
@@ -55,10 +60,12 @@ public class LettuceTemplateAsyncTest {
                                      RedisListAsyncCommands<String, String> listCommands,
                                      RedisKeyAsyncCommands<String, String> keyCommands) {
         try {
-          assertEquals("1", stringCommands.get("a").get());
+          assertEquals("1", stringCommands.get("a").get(1, TimeUnit.SECONDS));
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         } catch (ExecutionException e) {
+          throw new RuntimeException(e);
+        } catch (TimeoutException e) {
           throw new RuntimeException(e);
         }
         return null;
