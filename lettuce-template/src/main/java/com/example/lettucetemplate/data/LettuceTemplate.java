@@ -19,7 +19,7 @@ public class LettuceTemplate<K, V> {
 
   GenericObjectPool<StatefulConnection<K, V>> pool;
 
-  public <T> T execute(String sampleKey, LettuceStandaloneCallback<K, V> callback) {
+  public <T> T execute(String sampleKey, LettuceStandaloneCallback<K, V, T> callback) {
     StatefulConnection<K, V> conn = null;
     try {
       conn = pool.borrowObject();
@@ -46,7 +46,7 @@ public class LettuceTemplate<K, V> {
     }
   }
 
-  public <T> T execute(LettuceCallback<K, V> callback){
+  public <T> T execute(LettuceCallback<K, V, T> callback){
     StatefulConnection<K, V> conn = null;
     try {
       conn = pool.borrowObject();
@@ -70,7 +70,7 @@ public class LettuceTemplate<K, V> {
     }
   }
 
-  public <T> T executeAsync(String sampleKey, LettuceStandaloneAsyncCallback<K, V> callback) {
+  public <T> T executeAsync(String sampleKey, LettuceStandaloneAsyncCallback<K, V, T> callback) {
     StatefulConnection<K, V> conn = null;
     try {
       conn = pool.borrowObject();
@@ -97,7 +97,7 @@ public class LettuceTemplate<K, V> {
     }
   }
 
-  public <T> T executeAsync(LettuceAsyncCallback<K, V> callback){
+  public <T> T executeAsync(LettuceAsyncCallback<K, V, T> callback){
     StatefulConnection<K, V> conn = null;
     try {
       conn = pool.borrowObject();

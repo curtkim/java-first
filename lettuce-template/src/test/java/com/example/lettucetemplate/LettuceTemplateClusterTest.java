@@ -55,9 +55,9 @@ public class LettuceTemplateClusterTest {
 
     String key = "prefix:{a}";
     String key2 = "prefix2:{a}";
-    lettuceTemplate.execute(key, new LettuceStandaloneCallback<String, String>() {
+    lettuceTemplate.execute(key, new LettuceStandaloneCallback<>() {
       @Override
-      public <Object> Object execute(
+      public Object execute(
           RedisStringCommands<String, String> stringCommands,
           RedisListCommands<String, String> listCommands,
           RedisKeyCommands<String, String> keyCommands,
@@ -75,7 +75,7 @@ public class LettuceTemplateClusterTest {
 
     lettuceTemplate.execute(key, new LettuceStandaloneCallback<>() {
       @Override
-      public <T> T execute(
+      public Object execute(
           RedisStringCommands<String, String> stringCommands,
           RedisListCommands<String, String> listCommands,
           RedisKeyCommands<String, String> keyCommands,
@@ -88,7 +88,7 @@ public class LettuceTemplateClusterTest {
 
     lettuceTemplate.execute(new LettuceCallback<>() {
       @Override
-      public <T> T execute(RedisStringCommands<String, String> stringCommands, RedisListCommands<String, String> listCommands, RedisKeyCommands<String, String> keyCommands) {
+      public Object execute(RedisStringCommands<String, String> stringCommands, RedisListCommands<String, String> listCommands, RedisKeyCommands<String, String> keyCommands) {
         final int SCAN_COUNT = 100;
         ScanIterator<String> iter = ScanIterator.scan(keyCommands, ScanArgs.Builder.limit(SCAN_COUNT).match("prefix*"));
         List<String> first = Arrays.asList(key, key2);

@@ -52,9 +52,9 @@ public class LettuceTemplateClusterAsyncTest {
 
     String key = "prefix:{a}";
     String key2 = "prefix2:{a}";
-    lettuceTemplate.executeAsync(key, new LettuceStandaloneAsyncCallback<String, String>() {
+    lettuceTemplate.executeAsync(key, new LettuceStandaloneAsyncCallback<>() {
       @Override
-      public <Object> Object execute(
+      public Object execute(
           RedisStringAsyncCommands<String, String> stringCommands,
           RedisListAsyncCommands<String, String> listCommands,
           RedisKeyAsyncCommands<String, String> keyCommands,
@@ -79,9 +79,9 @@ public class LettuceTemplateClusterAsyncTest {
       }
     });
 
-    lettuceTemplate.executeAsync(key, new LettuceStandaloneAsyncCallback<String, String>() {
+    lettuceTemplate.executeAsync(key, new LettuceStandaloneAsyncCallback<>() {
       @Override
-      public <T> T execute(
+      public Object execute(
           RedisStringAsyncCommands<String, String> stringCommands,
           RedisListAsyncCommands<String, String> listCommands,
           RedisKeyAsyncCommands<String, String> keyCommands,

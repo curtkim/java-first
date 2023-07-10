@@ -27,31 +27,18 @@ public class LettuceTemplateTest {
       .withExposedPorts(6379);
 
   @Test
-  public void test(){
+  public void test() {
     RedisClient client = RedisClient.create(RedisURI.create("localhost", redis.getMappedPort(6379)));
 
     GenericObjectPool<StatefulConnection<String, String>> pool = ConnectionPoolSupport
         .createGenericObjectPool(() -> client.connect(), new GenericObjectPoolConfig());
     LettuceTemplate<String, String> lettuceTemplate = new LettuceTemplate<>(pool);
 
-    lettuceTemplate.execute(new LettuceCallback<>() {
-      @Override
-      public <Object> Object execute(RedisStringCommands<String, String> stringCommands,
-                            RedisListCommands<String, String> listCommands,
-                            RedisKeyCommands<String, String> keyCommands) {
-        stringCommands.set("a", "1");
-        return null;
-      }
-    });
+    lettuceTemplate.execute((strCmds, listCmds, keyCmds) -> strCmds.set("a", "1"));
 
-    lettuceTemplate.execute(new LettuceCallback<>() {
-      @Override
-      public <Object> Object execute(RedisStringCommands<String, String> stringCommands,
-                                     RedisListCommands<String, String> listCommands,
-                                     RedisKeyCommands<String, String> keyCommands) {
-        assertEquals("1", stringCommands.get("a"));
-        return null;
-      }
+    lettuceTemplate.execute((strCmds, listCmds, keyCmds) -> {
+      assertEquals("1", strCmds.get("a"));
+      return null;
     });
   }
 

@@ -41,7 +41,7 @@ public class LettuceTemplateAsyncTest {
 
     lettuceTemplate.executeAsync(new LettuceAsyncCallback<>() {
       @Override
-      public <Object> Object execute(RedisStringAsyncCommands<String, String> stringCommands,
+      public Object execute(RedisStringAsyncCommands<String, String> stringCommands,
                                      RedisListAsyncCommands<String, String> listCommands,
                                      RedisKeyAsyncCommands<String, String> keyCommands) {
         stringCommands.set("a", "1");
@@ -51,7 +51,7 @@ public class LettuceTemplateAsyncTest {
 
     lettuceTemplate.executeAsync(new LettuceAsyncCallback<>() {
       @Override
-      public <Object> Object execute(RedisStringAsyncCommands<String, String> stringCommands,
+      public Object execute(RedisStringAsyncCommands<String, String> stringCommands,
                                      RedisListAsyncCommands<String, String> listCommands,
                                      RedisKeyAsyncCommands<String, String> keyCommands) {
         try {
