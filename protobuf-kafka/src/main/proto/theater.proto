@@ -1,0 +1,25 @@
+syntax = "proto3";
+package theater;
+option java_package = "com.tutorialspoint.theater";
+
+message Theater {
+  string name = 1;
+  string address = 2;
+
+  int32 total_capacity = 3;
+  int64 mobile = 4;
+  float base_ticket_price = 5;
+
+  bool drive_in = 6;
+
+  enum PAYMENT_SYSTEM{
+    CASH = 0;
+    CREDIT_CARD = 1;
+    DEBIT_CARD = 2;
+    APP = 3;
+  }
+  PAYMENT_SYSTEM payment = 7;
+  repeated string snacks = 8;
+
+  map<string, int32> movieTicketPrice = 9;
+}
