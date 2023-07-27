@@ -36,7 +36,7 @@ public class ProtobufSpringApplication {
     return new CourseRepository(courses);
   }
 
-  private List<Student> createTestStudents() {
+  static List<Student> createTestStudents() {
     PhoneNumber phone1 = createPhone("123456", PhoneType.MOBILE);
     Student student1 = createStudent(1, "John", "Doe", "john.doe@baeldung.com", Arrays.asList(phone1));
 
@@ -50,11 +50,11 @@ public class ProtobufSpringApplication {
     return Arrays.asList(student1, student2, student3);
   }
 
-  private Student createStudent(int id, String firstName, String lastName, String email, List<PhoneNumber> phones) {
+  static Student createStudent(int id, String firstName, String lastName, String email, List<PhoneNumber> phones) {
     return Student.newBuilder().setId(id).setFirstName(firstName).setLastName(lastName).setEmail(email).addAllPhone(phones).build();
   }
 
-  private PhoneNumber createPhone(String number, PhoneType type) {
+  static PhoneNumber createPhone(String number, PhoneType type) {
     return PhoneNumber.newBuilder().setNumber(number).setType(type).build();
   }
 
