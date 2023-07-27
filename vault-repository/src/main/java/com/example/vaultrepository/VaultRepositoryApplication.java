@@ -6,6 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.vault.repository.configuration.EnableVaultRepositories;
 
+import java.time.Duration;
+import java.util.Arrays;
+
 @SpringBootApplication
 @EnableVaultRepositories
 public class VaultRepositoryApplication implements CommandLineRunner {
@@ -19,6 +22,6 @@ public class VaultRepositoryApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    appRepository.save(new App("taxi", "taxi앱"));
+    appRepository.save(new App("taxi", "taxi앱", Arrays.asList("1", "2")));
   }
 }
