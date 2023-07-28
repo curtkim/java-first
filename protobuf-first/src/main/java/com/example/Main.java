@@ -3,6 +3,7 @@ package com.example;
 import com.example.tutorial.Msg;
 import com.example.tutorial.MsgList;
 import com.example.tutorial.SecondMsg;
+import com.google.protobuf.Descriptors;
 
 import java.io.*;
 
@@ -27,6 +28,12 @@ public class Main {
     {
       MsgList msgList = MsgList.parseFrom(new FileInputStream(filename));
       System.out.println(msgList);
+    }
+
+    {
+      for(Descriptors.FieldDescriptor field : Msg.getDescriptor().getFields()){
+        System.out.println(field.getName() + " " + field.getJavaType());
+      }
     }
   }
 }
