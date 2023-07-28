@@ -4,6 +4,7 @@ import com.example.tutorial.Msg;
 import com.example.tutorial.MsgList;
 import com.example.tutorial.SecondMsg;
 import com.google.protobuf.Descriptors;
+import com.google.protobuf.DynamicMessage;
 
 import java.io.*;
 
@@ -34,6 +35,13 @@ public class Main {
       for(Descriptors.FieldDescriptor field : Msg.getDescriptor().getFields()){
         System.out.println(field.getName() + " " + field.getJavaType());
       }
+    }
+
+    {
+      System.out.println("==================== dynamic message");
+      DynamicMessage dynamicMessage = DynamicMessage.parseFrom(MsgList.getDescriptor(), new FileInputStream(filename));
+      System.out.println(dynamicMessage.getAllFields().size());
+      System.out.println(dynamicMessage.getAllFields());
     }
   }
 }
