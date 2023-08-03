@@ -1,7 +1,10 @@
 package com.example.protobufspringswagger;
 
 import com.baeldung.protobuf.BaeldungTraining;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.curioswitch.common.protobuf.json.MessageMarshaller;
+import org.curioswitch.common.protobuf.json.MessageMarshallerModule;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -39,9 +42,18 @@ public class ProtobufJasksonTest {
   }
 
   @Test
-  public void testList() throws IOException {
+  public void usingProtobufRepeat() throws IOException {
     BaeldungTraining.CourseList list = BaeldungTraining.CourseList.newBuilder().addList(make()).addList(make()).build();
     String json = marshaller.writeValueAsString(list);
+    System.out.println(json);
+  }
+
+  @Test
+  // https://github.com/curioswitch/protobuf-jackson/blob/1d5fd929ba5532f9a70aa46af3dffd72776a3487/src/main/java/org/curioswitch/common/protobuf/json/MessageMarshallerModule.java#L18
+  public void usingJavaList() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(MessageMarshallerModule.of(marshaller));
+    String json = mapper.writeValueAsString(Arrays.asList(make(), make()));
     System.out.println(json);
   }
 }
