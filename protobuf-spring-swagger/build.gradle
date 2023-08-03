@@ -28,6 +28,7 @@ dependencies {
     implementation 'io.eternalwind:springdoc-protobuf-schema:0.0.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation("org.curioswitch.curiostack:protobuf-jackson:2.2.0")
 }
 
 tasks.named('test') {

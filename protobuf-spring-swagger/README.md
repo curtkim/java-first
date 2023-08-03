@@ -9,6 +9,9 @@
     curl -H "Accept: application/json" localhost:8080/courses/1
     # json으로 반환
 
+    curl -H "Accept: application/json" localhost:8080/courses/
+    # objectMapper가 필요하다.
+
     curl -X POST -H 'Content-Type: application/json' -H "Accept: application/json" -d '{"courseName":"math"}' localhost:8080/courses/
 
 

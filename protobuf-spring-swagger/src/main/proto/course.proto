@@ -24,3 +24,7 @@ message Student {
     LANDLINE = 1;
   }
 }
+
+message CourseList {
+  repeated Course list = 1;
+}
