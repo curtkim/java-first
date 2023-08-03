@@ -2,6 +2,8 @@ package com.example.protobufspringswagger;
 
 import com.baeldung.protobuf.BaeldungTraining.Course;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CourseRepository {
@@ -20,5 +22,9 @@ public class CourseRepository {
     Course course = Course.newBuilder(origin).setId(id).build();
     courses.put(id, course);
     return course;
+  }
+
+  public List<Course> getAll(){
+    return new ArrayList<>(courses.values());
   }
 }

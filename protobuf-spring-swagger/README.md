@@ -22,4 +22,5 @@
 
 ## 주의 
 - proto파일에서 camel형식을 사용해야 한다.
+- com.google.protobuf:protobuf-java-util가 없어서 swagger에서 에러가 발생한다.
  

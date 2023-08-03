@@ -1,10 +1,13 @@
 package com.example.protobufspringswagger;
 
+import com.baeldung.protobuf.BaeldungTraining;
 import com.baeldung.protobuf.BaeldungTraining.Course;
 import com.baeldung.protobuf.BaeldungTraining.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import com.innogames.springfox_protobuf.ProtobufPropertiesModule;
+import org.curioswitch.common.protobuf.json.MessageMarshaller;
+import org.curioswitch.common.protobuf.json.MessageMarshallerModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +19,7 @@ import java.util.*;
 @SpringBootApplication
 public class ProtobufSpringSwaggerApplication {
 
+  /*
   @Bean
   public ObjectMapper objectMapper() {
     final ObjectMapper objectMapper = new ObjectMapper();
@@ -25,15 +29,29 @@ public class ProtobufSpringSwaggerApplication {
   }
 
   @Bean
+  // Protobof Message <-> json
   ProtobufJsonFormatHttpMessageConverter protobufJsonFormatHttpMessageConverter(){
     return new ProtobufJsonFormatHttpMessageConverter();
+  }
+
+  */
+
+  @Bean
+  public ObjectMapper objectMapper(){
+    MessageMarshaller marshaller = MessageMarshaller.builder()
+        .register(BaeldungTraining.Course.getDefaultInstance())
+        .register(BaeldungTraining.CourseList.getDefaultInstance())
+        .build();
+
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(MessageMarshallerModule.of(marshaller));
+    return mapper;
   }
 
   @Bean
   ProtobufHttpMessageConverter protobufHttpMessageConverter() {
     return new ProtobufHttpMessageConverter();
   }
-
 
   @Bean
   public CourseRepository createTestCourses() {

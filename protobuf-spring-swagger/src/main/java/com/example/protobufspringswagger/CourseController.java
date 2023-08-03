@@ -25,6 +25,6 @@ public class CourseController {
 
   @GetMapping("/courses/")
   List<Course> get(){
-    return new ArrayList<>(courseRepo.courses.values());
+    return courseRepo.getAll();
   }
 }
