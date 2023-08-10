@@ -1,0 +1,12 @@
+https://www.baeldung.com/spring-boot-keycloak-integration-testing
+
+## howto
+
+    // get jwt
+    curl -X POST http://localhost:8081/auth/realms/baeldung/protocol/openid-connect/token \
+       -H "Content-Type: application/x-www-form-urlencoded" \
+       -d "grant_type=password&client_id=baeldung-api&username=janedoe@baeldung.com&password=s3cr3t" 
+
+    // 
+    curl -i http://localhost:8080/users/me -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3bU4weVBpcERFYXpIT0JwemZfZkJsVUFTb0RPZHhsTy1WeGctX2FhdUowIn0.eyJleHAiOjE2OTE2NjAyMTAsImlhdCI6MTY5MTY1OTkxMCwianRpIjoiOTBjNTEzZmItMjhkNy00M2ZlLWFhMjYtYmQxNjNjNTE4ZGY1IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgxL2F1dGgvcmVhbG1zL2JhZWxkdW5nIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjgwNjI0ZDVlLTJiZWItNGE0Yi1iZjcyLTUyNGE2MjFkYzgwNiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhZWxkdW5nLWFwaSIsInNlc3Npb25fc3RhdGUiOiIyNGM0MDcxOC0xMGRjLTRlMDItODUyZi0wYTkyNGY2MTFjOTMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtYmFlbGR1bmciLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMjRjNDA3MTgtMTBkYy00ZTAyLTg1MmYtMGE5MjRmNjExYzkzIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJKYW5lIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6ImphbmVkb2UiLCJnaXZlbl9uYW1lIjoiSmFuZSIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJqYW5lZG9lQGJhZWxkdW5nLmNvbSJ9.0jjsKsH5G7yl04FO3rzYPmLDm6GRxqQEWhv4NlaoA5b1BOIpEMbTXymH-nfJ-7xqKn5vWTLXJgGYlOefzUS-Y1tBiXTATaFMjZfZ1o3Qp3P6puT2SSAAHzjYW2Tm3DgnqySpwx1ztfO2-dFT4j6HypjASoWpFkHHjw3YW96An56t2v4Dce-c7UJy0rVKm4nyDO_yMjUuMqhiv4nmX2mMln1lVS8bOjUWjSRouVuAZt94E7JZ7nAHG4I13lkcLPSx9hTXRpTOzEFoJwtV9o0CB42K_9ioUTIUAuNMxIoLO3IRdmtHYomlgRmxgStgwcbhSue4usJhBhuEKnmbz8-yDw"
+    {"id":1,"username":"janedoe","lastname":"Doe","firstname":"Jane","email":"jane.doe@baeldung.com"}% 
