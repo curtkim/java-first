@@ -5,6 +5,7 @@ import org.jgrapht.alg.util.Pair;
 import java.io.Serializable;
 import java.util.*;
 
+// Compressed Sparce Row Matrix
 public class CSRMatrix implements Serializable {
 
   private static final long serialVersionUID = -8639339411487665967L;

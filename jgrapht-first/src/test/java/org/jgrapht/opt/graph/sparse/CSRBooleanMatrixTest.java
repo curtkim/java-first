@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CSRBooleanMatrixTest {
 
-
   @Test
   public void nonZerosSet_reverse() throws IOException, ClassNotFoundException {
     // pair list 순서에 상관이 없다.
