@@ -14,8 +14,8 @@ public class Ex01_GOVMinimalPerfectHashFunction {
 
   public static void main(String[] args) throws IOException {
     List<String> list = Arrays.asList(
-      "C", "D", "A", "B"
-        );
+        "C", "D", "A", "B"
+    );
 
     GOVMinimalPerfectHashFunction.Builder<String> builder = new GOVMinimalPerfectHashFunction.Builder<>();
     GOVMinimalPerfectHashFunction<String> fun = builder
@@ -24,8 +24,15 @@ public class Ex01_GOVMinimalPerfectHashFunction {
         .build();
 
     System.out.println("numBits=" + fun.numBits());
+    System.out.println("size64=" + fun.size64());
 
-    for(String str : list)
+    for (String str : list)
       System.out.println(str + " " + fun.getLong(str));
+    /*
+    C 2
+    D 3
+    A 0
+    B 1
+    */
   }
 }

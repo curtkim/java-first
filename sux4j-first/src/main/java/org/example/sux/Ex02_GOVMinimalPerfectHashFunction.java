@@ -30,6 +30,11 @@ public class Ex02_GOVMinimalPerfectHashFunction {
       System.out.println("size64=" + fun.size64());
       for (Long a : list)
         System.out.println(a + " " + fun.getLong(a));
+
+//      974583489 3
+//      937459233 1
+//      827394728 2
+//      765273615 0
     }
 
     {
