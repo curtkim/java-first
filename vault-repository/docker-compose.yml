@@ -8,3 +8,16 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: "00000000-0000-0000-0000-000000000000"
     cap_add:
       - "IPC_LOCK"
+
+  vault-init:
+    image: vault:1.13.3
+    depends_on:
+      vault:
+        condition: service_started
+    environment:
+      VAULT_TOKEN: "00000000-0000-0000-0000-000000000000"
+      VAULT_ADDR: "http://vault:8200"
+    command: |
+      sh -c "
+      vault secrets disable secret;
+      vault secrets enable -version=1 -path=secret kv"

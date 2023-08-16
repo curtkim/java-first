@@ -6,9 +6,8 @@ import org.springframework.vault.repository.mapping.Secret;
 
 import java.util.List;
 
-
 @AllArgsConstructor
-@Secret(value = "app")
+@Secret(value = "naviplatform/mapmatch_apps")
 public class App {
 
   @Id

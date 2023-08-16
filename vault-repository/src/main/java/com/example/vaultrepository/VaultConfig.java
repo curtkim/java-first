@@ -18,6 +18,7 @@ public class VaultConfig extends AbstractVaultConfiguration {
   public VaultEndpoint vaultEndpoint() {
     VaultEndpoint endpoint = VaultEndpoint.create("127.0.0.1", 8200);
     endpoint.setScheme("http");
+    endpoint.setPath("v1");
     return endpoint;
   }
 
