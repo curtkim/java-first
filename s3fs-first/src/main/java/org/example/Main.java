@@ -1,22 +1,18 @@
 package org.example;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.*;
 import java.util.Map;
-import java.util.stream.Stream;
 
-import static org.carlspring.cloud.storage.s3fs.S3Factory.ACCESS_KEY;
-import static org.carlspring.cloud.storage.s3fs.S3Factory.SECRET_KEY;
+import static org.carlspring.cloud.storage.s3fs.S3Factory.*;
 
 public class Main {
   public static void main(String[] args) throws IOException {
-    Map<String, ?> env = ImmutableMap.<String, Object>builder()
-        .put(ACCESS_KEY, "mys3")
-        .put(SECRET_KEY, "myS3Pass")
-        .build();
+    Map<String, ?> env = Map.of(
+        ACCESS_KEY, "myS3",
+        SECRET_KEY, "myS3Pass",
+        PROTOCOL, "https");
 
     FileSystem fs = FileSystems.newFileSystem(URI.create("s3://localhost.localstack.cloud:4566/"),
         env,

@@ -5,3 +5,12 @@
 ## referenc
 - https://github.com/carlspring/s3fs-nio
 - https://mkyong.com/java/java-how-to-read-a-file/
+
+## howto
+
+    docker compose up
+    // run Main
+
+    export AWS_ACCESS_KEY_ID=myS3
+    export AWS_SECRET_ACCESS_KEY=myS3Pass
+    aws --endpoint-url=http://localhost:4566 s3 ls s3://temp

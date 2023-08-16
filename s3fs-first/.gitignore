@@ -40,3 +40,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+src/main/java/org/example/Main2.java
