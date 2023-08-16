@@ -22,6 +22,10 @@ public class VaultRepositoryApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    appRepository.save(new App("taxi", "taxi앱", Arrays.asList("1", "2")));
+    appRepository.save(new App("taxi", "taxi앱", Arrays.asList("1", "2"), 1));
+
+    Iterable<App> list = appRepository.findAll();
+    for(App app : list)
+      System.out.println(app);
   }
 }
