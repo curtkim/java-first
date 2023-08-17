@@ -13,7 +13,7 @@ class UserControllerManualTest extends KeycloakTestContainers {
 
   @Test
   void givenAuthenticatedUser_whenGetMe_shouldReturnMyInfo() {
-
+    //@formatter:off
     given()
         .header("Authorization", getJaneDoeBearer())
     .when()
@@ -23,6 +23,6 @@ class UserControllerManualTest extends KeycloakTestContainers {
         .body("lastname", equalTo("Doe"))
         .body("firstname", equalTo("Jane"))
         .body("email", equalTo("jane.doe@baeldung.com"));
-
+    //@formatter:on
   }
 }
