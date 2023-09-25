@@ -7,6 +7,8 @@ spring:
             client-id: 248784500218-cirndg0qrgupp2ug7kunqhfvrln85ou5.apps.googleusercontent.com
             client-secret: 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
 
+# enalble Oauth2ClientAutoConfiguration
+
 #logging:
 #  level:
 #    org.springframework.security: DEBUG
