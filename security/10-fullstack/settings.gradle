@@ -1,0 +1,3 @@
+//rootProject.name = 'fullstack'
+include 'auth-server'
+include 'resource-server'
