@@ -25,4 +25,6 @@ public class App {
 
   int ttlDays;
 
+  AppInfo info;
+
 }
